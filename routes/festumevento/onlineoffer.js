@@ -1,0 +1,14 @@
+var express = require('express');
+var router = express.Router();
+const helper = require('../../utilities/helper');
+const listOnlineOfferCtrl = require('../../controllers/superadmin/onlineoffer/list');
+const getoneOnlineOfferCtrl = require('../../controllers/superadmin/onlineoffer/getone');
+const approveOnlineOfferCtrl = require('../../controllers/superadmin/onlineoffer/approve');
+const rejectOnlineOfferCtrl = require('../../controllers/superadmin/onlineoffer/reject');
+const deleteOnlineOfferCtrl = require('../../controllers/superadmin/onlineoffer/remove');
+router.post('/', helper.authenticateToken, listOnlineOfferCtrl.list);
+router.post('/getone', helper.authenticateToken, getoneOnlineOfferCtrl.getone);
+router.post('/approve', helper.authenticateToken, approveOnlineOfferCtrl.approve);
+router.post('/reject', helper.authenticateToken, rejectOnlineOfferCtrl.reject);
+router.post('/remove', helper.authenticateToken, deleteOnlineOfferCtrl.remove);
+module.exports = router;

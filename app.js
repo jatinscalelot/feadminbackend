@@ -11,8 +11,6 @@ var fs = require('fs');
 let mongoose = require("mongoose");
 var CronJob = require('cron').CronJob;
 var expressLayouts = require('express-ejs-layouts');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -36,8 +34,15 @@ mongoose.connection.once('open', () => {
 }).on('error', error => {
   console.log("Oops! database connection error:" + error);
 });
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+const superadminpaths = [
+  { pathUrl: '/', routeFile: 'login' },
+  { pathUrl: '/roles', routeFile: 'roles' },
+  { pathUrl: '/admins', routeFile: 'admins' },
+  { pathUrl: '/profile', routeFile: 'profile' },
+];
+superadminpaths.forEach((path) => {
+  app.use('/admin' + path.pathUrl, require('./routes/superadmin/' + path.routeFile));
+});
 app.use(function(req, res, next) {
   next(createError(404));
 });

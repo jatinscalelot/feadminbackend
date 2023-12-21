@@ -1,6 +1,15 @@
 let constants = {
-    DEFAULT_DB: 'festumevento',
-    MODELS: {
+    DEFAULT_DB: 'superadmin',
+    FESTUMEVENTO_DB: 'festumevento',
+    EVENTOPACKAGE_DB: 'eventopackage',
+    FESTUMCOIN_DB : 'festumcoin',
+    FESTUMFIELD_DB : 'festumfield',
+    FESTUMADVERTISINGMEDIA_DB : 'festumadvertisingmedia',
+    MODELS : {
+        admins: 'admins',
+        roles: 'roles'
+    },
+    FE_MODELS : {
         admins: 'admins',
         executives: 'executives',
         subadmins: 'subadmins',
@@ -55,6 +64,40 @@ let constants = {
         uochats : 'uochats',
         emailtemplates : 'emailtemplates',
         smstemplates : 'smstemplates'
-    }
+    },
+    EP_MODELS : {
+        admins: 'admins',
+        executives: 'executives',
+        subadmins: 'subadmins',
+        superadmins: 'superadmins',
+        organizers: 'organizers',
+        users: 'users',
+        events: 'events',
+        eventreviews: 'eventreviews',
+        eventwishlists: 'eventwishlists',
+        services: 'services',
+        items: 'items',
+        equipments: 'equipments',
+        categories: 'categories',
+        discounts : 'discounts',
+        ourproduct : 'ourproduct',
+        notifications : 'notifications',
+        promotionplans : 'promotionplans',
+        customerimports : 'customerimports',
+        settings : 'settings',
+        notificationcoupons : 'notificationcoupons',
+        eventbookingcoupons: 'eventbookingcoupons',
+        eventbookings: 'eventbookings',
+        getintouches : 'getintouches',
+        entertainmentcomments : 'entertainmentcomments',
+        fcointransactions : 'fcointransactions',
+        fcoinintransactions: 'fcoinintransactions',
+        agents : 'agents',
+        fcoins : 'fcoins',
+        promotionexistingusers : 'promotionexistingusers'
+    },
+    FC_MODELS : {},
+    FF_MODELS : {},
+    FAM_MODELS : {}
 };
 module.exports = constants;
