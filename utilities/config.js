@@ -85,14 +85,11 @@ let FestumcoinCollections = [];
 let FestumadvertisingmediaCollections = [];
 let FestumfieldCollections = [];
 async function getPermission(roleID, modelName, permissionType, permissionfor, database) {
-    console.log('here...', roleID);
     let result = await database.model(constants.MODELS.roles, roleModel).findById(roleID).lean();
-    console.log('results...', result);
     if (result && result.status && result.status == true) {
         let finalpermission = []; 
         if (permissionfor == 'superadmin') {
             finalpermission = _.filter(result.permissions.superadmin, { 'collectionName': modelName });
-            console.log('finalpermission...', finalpermission);
         } else if (permissionfor == 'festumevento') {
             finalpermission = _.filter(result.permissions.festumevento, { 'collectionName': modelName });
         } else if (permissionfor == 'eventopackage') {
@@ -106,7 +103,6 @@ async function getPermission(roleID, modelName, permissionType, permissionfor, d
         } else {
             return false;
         }
-        console.log('finalpermission', finalpermission);
         if (finalpermission.length == 1) {
             if (permissionType == "view") {
                 if (finalpermission[0].view == true)
