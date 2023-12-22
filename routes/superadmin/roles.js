@@ -101,7 +101,7 @@ router.get('/defaultpermissions', helper.authenticateToken, async (req, res) => 
                     });
                 });
             }else{
-                return response.forbiddenRequest(res);
+                return responseManager.forbiddenRequest(res);
             }
         }else{
             return responseManager.unauthorisedRequest(res);
@@ -152,7 +152,7 @@ router.post('/', helper.authenticateToken, async (req, res) => {
                     return responseManager.onError(error, res);
                 });
             }else{
-                return response.forbiddenRequest(res);
+                return responseManager.forbiddenRequest(res);
             }
         }else{
             return responseManager.unauthorisedRequest(res);
@@ -216,7 +216,7 @@ router.post('/save', helper.authenticateToken, async (req, res) => {
                     return responseManager.badrequest({ message: 'Invalid Role Name, Name can not be empty while create or update a role, Please try again' }, res);
                 }
             }else{
-                return response.forbiddenRequest(res);
+                return responseManager.forbiddenRequest(res);
             }
         }else{
             return responseManager.unauthorisedRequest(res);
@@ -254,7 +254,7 @@ router.post('/onoff', helper.authenticateToken, async (req, res) => {
                     return responseManager.badrequest({ message: 'Invalid role id to update role data, Please try again' }, res);
                 }
             }else{
-                return response.forbiddenRequest(res);
+                return responseManager.forbiddenRequest(res);
             }
         }else{
             return responseManager.unauthorisedRequest(res);

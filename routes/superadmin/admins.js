@@ -60,7 +60,7 @@ router.post('/', helper.authenticateToken, async (req, res) => {
                     return responseManager.onError(error, res);
                 });
             }else{
-                return response.forbiddenRequest(res);
+                return responseManager.forbiddenRequest(res);
             }
         }else{
             return responseManager.unauthorisedRequest(res);
@@ -160,7 +160,7 @@ router.post('/save', helper.authenticateToken, async (req, res) => {
                     return responseManager.badrequest({ message: 'Oops ! Invalid or Empty Admin Full Name, please try again' }, res);
                 }
             }else{
-                return response.forbiddenRequest(res);
+                return responseManager.forbiddenRequest(res);
             }
         }else{
             return responseManager.unauthorisedRequest(res);
@@ -198,7 +198,7 @@ router.post('/onoff', helper.authenticateToken, async (req, res) => {
                     return responseManager.badrequest({ message: 'Oops ! Invalid Admin Mongo ID, please try again' }, res);
                 }
             }else{
-                return response.forbiddenRequest(res);
+                return responseManager.forbiddenRequest(res);
             }
         }else{
             return responseManager.unauthorisedRequest(res);
@@ -228,7 +228,7 @@ router.post('/getone', helper.authenticateToken, async (req, res) => {
                     return responseManager.badrequest({ message: 'Oops ! Invalid Admin Mongo ID, please try again' }, res);
                 }
             }else{
-                return response.forbiddenRequest(res);
+                return responseManager.forbiddenRequest(res);
             }
         }else{
             return responseManager.unauthorisedRequest(res);
