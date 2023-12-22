@@ -103,6 +103,7 @@ async function getPermission(roleID, modelName, permissionType, permissionfor, d
         } else {
             return false;
         }
+        console.log('finalpermission', finalpermission);
         if (finalpermission.length == 1) {
             if (permissionType == "view") {
                 if (finalpermission[0].view == true)
