@@ -86,23 +86,23 @@ let FestumadvertisingmediaCollections = [];
 let FestumfieldCollections = [];
 async function getPermission(roleID, modelName, permissionType, permissionfor, database) {
     console.log('here...', roleID);
-    let results = await database.model(constants.MODELS.roles, roleModel).find({ roleId: roleID }).lean();
-    console.log('results...', results);
-    if (results.length == 1 && results[0] && results[0].status && results[0].status == true) {
+    let result = await database.model(constants.MODELS.roles, roleModel).findById(roleID).lean();
+    console.log('results...', result);
+    if (result && result.status && result.status == true) {
         let finalpermission = []; 
         if (permissionfor == 'superadmin') {
-            finalpermission = _.filter(results[0].permissions.superadmin, { 'collectionName': modelName });
+            finalpermission = _.filter(result.permissions.superadmin, { 'collectionName': modelName });
             console.log('finalpermission...', finalpermission);
         } else if (permissionfor == 'festumevento') {
-            finalpermission = _.filter(results[0].permissions.festumevento, { 'collectionName': modelName });
+            finalpermission = _.filter(result.permissions.festumevento, { 'collectionName': modelName });
         } else if (permissionfor == 'eventopackage') {
-            finalpermission = _.filter(results[0].permissions.eventopackage, { 'collectionName': modelName });
+            finalpermission = _.filter(result.permissions.eventopackage, { 'collectionName': modelName });
         } else if (permissionfor == 'festumfield') {
-            finalpermission = _.filter(results[0].permissions.festumfield, { 'collectionName': modelName });
+            finalpermission = _.filter(result.permissions.festumfield, { 'collectionName': modelName });
         } else if (permissionfor == 'festumcoin') {
-            finalpermission = _.filter(results[0].permissions.festumcoin, { 'collectionName': modelName });
+            finalpermission = _.filter(result.permissions.festumcoin, { 'collectionName': modelName });
         } else if (permissionfor == 'festumadvertisingmedia') {
-            finalpermission = _.filter(results[0].permissions.festumadvertisingmedia, { 'collectionName': modelName });
+            finalpermission = _.filter(result.permissions.festumadvertisingmedia, { 'collectionName': modelName });
         } else {
             return false;
         }
