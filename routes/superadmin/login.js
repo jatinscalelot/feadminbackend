@@ -30,4 +30,6 @@ router.post('/', async (req, res) => {
         return responseManager.badrequest({message : 'Invalid admin id or password please try again'}, res);
     } 
 });
+router.post('/updatepassword', helper.authenticateToken, async (req, res) => {});
+router.post('/forgetpassword', helper.authenticateToken, async (req, res) => {});
 module.exports = router;

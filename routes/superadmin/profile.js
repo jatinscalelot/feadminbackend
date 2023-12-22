@@ -8,10 +8,10 @@ const adminModel = require('../../models/superadmin/admins.model');
 const roleModel = require('../../models/superadmin/roles.model');
 const mongoose = require('mongoose');
 const multerFn = require('../../utilities/multer.functions');
-const config = require('../../utilities/config');
-const async = require('async');
 const AwsCloud = require('../../utilities/aws');
 const allowedContentTypes = require('../../utilities/content-types');
+const config = require('../../utilities/config');
+const async = require('async');
 router.get('/', helper.authenticateToken, async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
     res.setHeader('Access-Control-Allow-Origin', '*');
