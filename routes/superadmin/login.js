@@ -32,4 +32,18 @@ router.post('/', async (req, res) => {
 });
 router.post('/updatepassword', helper.authenticateToken, async (req, res) => {});
 router.post('/forgetpassword', helper.authenticateToken, async (req, res) => {});
+router.post('/encPass', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    const { password } = req.body;
+    let encPassword = await helper.passwordEncryptor(password);
+    return responseManager.onSuccess('Password!', {password : encPassword}, res);
+});
+router.post('/decPass', async (req, res) => {
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    const { password } = req.body;
+    let decPassword = await helper.passwordDecryptor(password);
+    return responseManager.onSuccess('Password!', {password : decPassword}, res);
+})
 module.exports = router;
