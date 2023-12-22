@@ -85,11 +85,14 @@ let FestumcoinCollections = [];
 let FestumadvertisingmediaCollections = [];
 let FestumfieldCollections = [];
 async function getPermission(roleID, modelName, permissionType, permissionfor, database) {
+    console.log('here...', roleID);
     let results = await database.model(constants.MODELS.roles, roleModel).find({ roleId: roleID }).lean();
+    console.log('results...', results);
     if (results.length == 1 && results[0] && results[0].status && results[0].status == true) {
         let finalpermission = []; 
         if (permissionfor == 'superadmin') {
             finalpermission = _.filter(results[0].permissions.superadmin, { 'collectionName': modelName });
+            console.log('finalpermission...', finalpermission);
         } else if (permissionfor == 'festumevento') {
             finalpermission = _.filter(results[0].permissions.festumevento, { 'collectionName': modelName });
         } else if (permissionfor == 'eventopackage') {
