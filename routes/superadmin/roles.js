@@ -172,7 +172,7 @@ router.post('/save', helper.authenticateToken, async (req, res) => {
                 const { roleid, name, description, permissions } = req.body;
                 if(name && name.trim() != ''){
                     if(description && description.trim() != ''){
-                        if(permissions && permissions.length > 0){
+                        if(permissions && permissions.superadmin && permissions.festumevento && permissions.eventopackage && permissions.festumfield && permissions.festumcoin && permissions.festumadvertisingmedia){
                             if(roleid && roleid != null && roleid != '' && mongoose.Types.ObjectId.isValid(roleid)){
                                 let checkExisting = await primary.model(constants.MODELS.roles, roleModel).findOne({ name: name }).lean();
                                 if(checkExisting == null || (checkExisting && checkExisting._id.toString() == roleid.toString())){
