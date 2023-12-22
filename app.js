@@ -25,10 +25,9 @@ app.use('/socket.io', express.static(__dirname + '/node_modules/socket.io/client
 app.use(cors());
 mongoose.set('runValidators', true);
 mongoose.set('strictQuery', false);
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+// useNewUrlParser: true,
+// useUnifiedTopology: true
+mongoose.connect(process.env.MONGO_URI);
 mongoose.connection.once('open', () => {
   console.log("Well done! , connected with mongoDB database");
 }).on('error', error => {
