@@ -17,6 +17,7 @@ router.get('/defaultpermissions', helper.authenticateToken, async (req, res) => 
         let admindata = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).lean();
         if(admindata){
             let havePermission = await config.getPermission(admindata.roleId, "roles", "view", "superadmin", primary);
+            console.log('havePermission', havePermission);
             if (havePermission) {
                 let permissions = {
                     superadmin : [],
