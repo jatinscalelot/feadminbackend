@@ -88,7 +88,10 @@ router.post('/profilepic', helper.authenticateToken, multerFn.memoryUpload.singl
                         AwsCloud.saveToS3(req.file.buffer, admindata._id.toString(), req.file.mimetype, 'profile').then((result) => {
                             if(result && result.data && result.data.Key){
                                 primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(req.token.superadminid, { profile_pic: result.data.Key }).then((updateprofileobj) => {
-                                    return responseManager.onSuccess('Updated Admin Profile...', updateprofileobj, res);
+                                    ( async () => {
+                                        let updatedData = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).lean();
+                                        return responseManager.onSuccess('Updated Admin Profile...', updatedData, res);
+                                    })().catch((error) => { return responseManager.onError(err, res); });
                                 }).catch((err) => {
                                     return responseManager.onError(err, res);
                                 });
