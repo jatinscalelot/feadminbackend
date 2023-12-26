@@ -109,6 +109,27 @@ router.get('/defaultpermissions', helper.authenticateToken, async (req, res) => 
         return responseManager.unauthorisedRequest(res);
     }
 });
+router.get('/', helper.authenticateToken, async (req, res) => {
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    if (req.token.superadminid && req.token.superadminid != '' && req.token.superadminid != null && mongoose.Types.ObjectId.isValid(req.token.superadminid)) {
+        let primary = mongoConnection.useDb(constants.DEFAULT_DB);
+        let admindata = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).lean();
+        if(admindata){
+            let havePermission = await config.getPermission(admindata.roleId, "roles", "view", "superadmin", primary);
+            if (havePermission) {
+                let allRoles = await primary.model(constants.MODELS.roles, roleModel).find({status : true}).select("status description name").lean();
+                return responseManager.onSuccess('Roles List!', allRoles, res);
+            }else{
+                return responseManager.forbiddenRequest(res);
+            }
+        }else{
+            return responseManager.unauthorisedRequest(res);
+        }
+    } else {
+        return responseManager.unauthorisedRequest(res);
+    }
+});
 router.post('/', helper.authenticateToken, async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
     res.setHeader('Access-Control-Allow-Origin', '*');
