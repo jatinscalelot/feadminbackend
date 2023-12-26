@@ -118,15 +118,15 @@ router.post('/', helper.authenticateToken, async (req, res) => {
         if(admindata){
             let havePermission = await config.getPermission(admindata.roleId, "roles", "view", "superadmin", primary);
             if (havePermission) {
-                const { page, limit, search, state } = req.body;
+                const { page, limit, search, status } = req.body;
                 let totalRoles = parseInt(await primary.model(constants.MODELS.roles, roleModel).countDocuments({}));
                 let totalActiveRoles = parseInt(await primary.model(constants.MODELS.roles, roleModel).countDocuments({status : true}));
                 let totalInActiveRoles = parseInt(await primary.model(constants.MODELS.roles, roleModel).countDocuments({status : false}));
                 let query = {};
-                if(state != 'All'){
-                    if(state == 'InActive'){
+                if(status != 'All'){
+                    if(status == 'InActive'){
                         query.status = false;
-                    }else if(state == 'Active'){
+                    }else if(status == 'Active'){
                         query.status = true;
                     }
                 }
@@ -256,6 +256,36 @@ router.post('/onoff', helper.authenticateToken, async (req, res) => {
                 return responseManager.forbiddenRequest(res);
             }
         }else{
+            return responseManager.unauthorisedRequest(res);
+        }
+    } else {
+        return responseManager.unauthorisedRequest(res);
+    }
+});
+router.post('/getone', helper.authenticateToken, async (req, res) => {
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    if (req.token.superadminid && req.token.superadminid != '' && req.token.superadminid != null && mongoose.Types.ObjectId.isValid(req.token.superadminid)) {
+        let primary = mongoConnection.useDb(constants.DEFAULT_DB);
+        let admindata = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).lean();
+        if (admindata) {
+            let havePermission = await config.getPermission(admindata.roleId, "roles", "view", "superadmin", primary);
+            if (havePermission) {
+                const { roleid } = req.body;
+                if (roleid && roleid != '' && roleid != null && mongoose.Types.ObjectId.isValid(roleid)) {
+                    let existingRole = await primary.model(constants.MODELS.roles, roleModel).findById(roleid).lean();
+                    if (existingRole) {
+                        return responseManager.onSuccess('Role details!', existingRole, res);
+                    } else {
+                        return responseManager.badrequest({ message: 'Oops ! Invalid Role Mongo ID, please try again' }, res);
+                    }
+                } else {
+                    return responseManager.badrequest({ message: 'Oops ! Invalid Role Mongo ID, please try again' }, res);
+                }
+            } else {
+                return responseManager.forbiddenRequest(res);
+            }
+        } else {
             return responseManager.unauthorisedRequest(res);
         }
     } else {

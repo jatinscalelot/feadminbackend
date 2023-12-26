@@ -18,15 +18,15 @@ router.post('/', helper.authenticateToken, async (req, res) => {
         if(admindata){
             let havePermission = await config.getPermission(admindata.roleId, "admins", "view", "superadmin", primary);
             if (havePermission) {
-                const { page, limit, search, state } = req.body;
+                const { page, limit, search, status } = req.body;
                 let totalAdmins = parseInt(await primary.model(constants.MODELS.admins, adminModel).countDocuments({}));
                 let totalActiveAdmins = parseInt(await primary.model(constants.MODELS.admins, adminModel).countDocuments({status : true}));
                 let totalInActiveAdmins = parseInt(await primary.model(constants.MODELS.admins, adminModel).countDocuments({status : false}));
                 let query = {};
-                if(state != 'All'){
-                    if(state == 'InActive'){
+                if(status != 'All'){
+                    if(status == 'InActive'){
                         query.status = false;
-                    }else if(state == 'Active'){
+                    }else if(status == 'Active'){
                         query.status = true;
                     }
                 }

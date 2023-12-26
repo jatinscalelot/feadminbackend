@@ -38,6 +38,7 @@ const superadminpaths = [
   { pathUrl: '/roles', routeFile: 'roles' },
   { pathUrl: '/admins', routeFile: 'admins' },
   { pathUrl: '/profile', routeFile: 'profile' },
+  { pathUrl: '/projects', routeFile: 'projects' }
 ];
 superadminpaths.forEach((path) => {
   app.use('/admin' + path.pathUrl, require('./routes/superadmin/' + path.routeFile));

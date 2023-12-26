@@ -80,6 +80,7 @@ let EventopackageCollections = [
 let SuperadminCollections = [
     { text: 'Admin Users', value: 'admins' },
     { text: 'Roles', value: 'roles' },
+    { text: 'Projects', value: 'projects' },
 ];
 let FestumcoinCollections = [];
 let FestumadvertisingmediaCollections = [];

@@ -7,7 +7,8 @@ let constants = {
     FESTUMADVERTISINGMEDIA_DB : 'festumadvertisingmedia',
     MODELS : {
         admins: 'admins',
-        roles: 'roles'
+        roles: 'roles',
+        projects : 'projects'
     },
     FE_MODELS : {
         admins: 'admins',
