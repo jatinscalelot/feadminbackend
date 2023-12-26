@@ -45,5 +45,5 @@ router.post('/decPass', async (req, res) => {
     const { password } = req.body;
     let decPassword = await helper.passwordDecryptor(password);
     return responseManager.onSuccess('Password!', {password : decPassword}, res);
-})
+});
 module.exports = router;
