@@ -16,7 +16,7 @@ exports.getoneadmin = async (req, res) => {
             if (havePermission) {
                 const { saadminid } = req.body;
                 if(saadminid && saadminid != '' && saadminid != null && mongoose.Types.ObjectId.isValid(saadminid)){
-                    let existingAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).populate({path : 'roleId', model: primary.model(constants.MODELS.roles, roleModel)}).lean();
+                    let existingAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).populate({path : 'roleId', model: primary.model(constants.MODELS.roles, roleModel)}).select("-password").lean();
                     if(existingAdmin){
                         return responseManager.onSuccess('Admin details!', existingAdmin, res);
                     }else{

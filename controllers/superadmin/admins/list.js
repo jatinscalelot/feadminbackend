@@ -46,6 +46,7 @@ exports.listwithpagination = async (req, res) => {
                     populate: [
                         {path : 'roleId', model: primary.model(constants.MODELS.roles, roleModel)}
                     ],
+                    select : "-password",
                     lean: true
                 }).then((adminList) => {
                     adminList.totaladmins = totalAdmins;
