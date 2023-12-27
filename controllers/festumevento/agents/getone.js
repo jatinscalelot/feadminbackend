@@ -1,17 +1,9 @@
 const mongoConnection = require('../../../utilities/connections');
 const responseManager = require('../../../utilities/response.manager');
 const constants = require('../../../utilities/constants');
-const helper = require('../../../utilities/helper');
-const organizerModel = require('../../../models/festumevento/organizers.model');
 const agentModel = require('../../../models/festumevento/agents.model');
 const adminModel = require('../../../models/superadmin/admins.model');
-const eventModel = require('../../../models/festumevento/events.model');
 const mongoose = require('mongoose');
-const AwsCloud = require('../../../utilities/aws');
-var jsonexcel = require('exceljs');
-var fs = require('fs');
-var excelFileName = 'downloadFiles/agentReport.xlsx';
-const async = require('async');
 exports.getoneagent = async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
     res.setHeader('Access-Control-Allow-Origin', '*');
