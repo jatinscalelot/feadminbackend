@@ -11,7 +11,7 @@ exports.savediscount = async (req, res) => {
         let primary = mongoConnection.useDb(constants.DEFAULT_DB);
         let admindata = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).lean();
         if(admindata){
-            let havePermission = await config.getPermission(admindata.roleId, "discounts", "view", "festumevento", primary);
+            let havePermission = await config.getPermission(admindata.roleId, "discounts", "insertUpdate", "festumevento", primary);
             if (havePermission) {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
                 const { discountid, discountname, discounttype, description, discount, status, tandc } = req.body;
