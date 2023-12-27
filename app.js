@@ -40,8 +40,14 @@ const superadminpaths = [
   { pathUrl: '/profile', routeFile: 'profile' },
   { pathUrl: '/projects', routeFile: 'projects' }
 ];
+const festumeventopaths = [
+  { pathUrl: '/agent', routeFile: 'agent' },
+];
 superadminpaths.forEach((path) => {
   app.use('/admin' + path.pathUrl, require('./routes/superadmin/' + path.routeFile));
+});
+festumeventopaths.forEach((path) => {
+  app.use('/festumevento' + path.pathUrl, require('./routes/festumevento/' + path.routeFile));
 });
 app.use(function(req, res, next) {
   next(createError(404));

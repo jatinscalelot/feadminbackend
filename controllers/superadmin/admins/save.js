@@ -14,7 +14,7 @@ exports.saveadmin = async (req, res) => {
         if(admindata){
             let havePermission = await config.getPermission(admindata.roleId, "admins", "insertUpdate", "superadmin", primary);
             if (havePermission) {
-                const { saadminid, name, email, mobile, country_code, password, about, city, country, dob, pincode, state, adminid, roleId } = req.body;
+                const { saadminid, name, email, mobile, country_wise_contact, country_code, password, about, city, country, dob, pincode, state, adminid, roleId } = req.body;
                 if(name && name.trim() != ''){
                     if(email && email.trim() != '' && (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
                         if(mobile && mobile.trim() != '' && mobile.length == 10){
@@ -29,6 +29,7 @@ exports.saveadmin = async (req, res) => {
                                                     email : email,
                                                     mobile : mobile,
                                                     country_code : country_code,
+                                                    country_wise_contact : country_wise_contact,
                                                     about : (about && about != '') ? about : '',
                                                     city : (city && city != '') ? city : '',
                                                     country : (country && country != '') ? country : '',
@@ -53,6 +54,7 @@ exports.saveadmin = async (req, res) => {
                                                     email : email,
                                                     mobile : mobile,
                                                     country_code : country_code,
+                                                    country_wise_contact : country_wise_contact,
                                                     password : await helper.passwordEncryptor(password),
                                                     fcm_token : '',
                                                     status : true,
