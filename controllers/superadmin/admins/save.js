@@ -38,7 +38,7 @@ exports.saveadmin = async (req, res) => {
                                                     state : (state && state != '') ? state : '',
                                                     adminid : adminid,
                                                     roleId : new mongoose.Types.ObjectId(roleId),
-                                                    updatedBy : ''
+                                                    updatedBy : new mongoose.Types.ObjectId(admindata._id)
                                                 };
                                                 await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(saadminid, obj);
                                                 let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).lean();
@@ -68,8 +68,8 @@ exports.saveadmin = async (req, res) => {
                                                     adminid : adminid,
                                                     channelID : '',
                                                     roleId : new mongoose.Types.ObjectId(roleId),
-                                                    createdBy : '',
-                                                    updatedBy : ''
+                                                    createdBy : new mongoose.Types.ObjectId(admindata._id),
+                                                    updatedBy : new mongoose.Types.ObjectId(admindata._id)
                                                 };
                                                 let createdAdmin = await primary.model(constants.MODELS.admins, adminModel).create(obj);
                                                 await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(createdAdmin._id, { channelID: createdAdmin.mobile.toString() + '_' + createdAdmin._id.toString() });
