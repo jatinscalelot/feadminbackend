@@ -7,7 +7,7 @@ const onoffEventBookingCouponsCtrl = require('../../controllers/festumevento/eve
 const getoneEventBookingCouponsCtrl = require('../../controllers/festumevento/eventcoupons/getone');
 router.post('/', helper.authenticateToken, listEventBookingCouponsCtrl.withpagination);
 router.get('/', helper.authenticateToken, listEventBookingCouponsCtrl.withoutpagination);
-router.save('/save', helper.authenticateToken, saveEventBookingCouponsCtrl.saveeventcoupon);
-router.save('/onoff', helper.authenticateToken, onoffEventBookingCouponsCtrl.onoffeventcoupon);
-router.save('/getone', helper.authenticateToken, getoneEventBookingCouponsCtrl.getoneeventcoupon);
+router.post('/save', helper.authenticateToken, saveEventBookingCouponsCtrl.saveeventcoupon);
+router.post('/onoff', helper.authenticateToken, onoffEventBookingCouponsCtrl.onoffeventcoupon);
+router.post('/getone', helper.authenticateToken, getoneEventBookingCouponsCtrl.getoneeventcoupon);
 module.exports = router;
