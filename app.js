@@ -42,6 +42,10 @@ const superadminpaths = [
 ];
 const festumeventopaths = [
   { pathUrl: '/agent', routeFile: 'agent' },
+  { pathUrl: '/eventdiscount', routeFile: 'eventdiscount' },
+  { pathUrl: '/event', routeFile: 'event' },
+  { pathUrl: '/eventcoupon', routeFile: 'eventcoupon' },
+  { pathUrl: '/eventcategory', routeFile: 'eventcategory' },
 ];
 superadminpaths.forEach((path) => {
   app.use('/admin' + path.pathUrl, require('./routes/superadmin/' + path.routeFile));
