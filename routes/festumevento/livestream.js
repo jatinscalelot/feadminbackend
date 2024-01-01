@@ -6,7 +6,7 @@ const getoneLivestreamCtrl = require('../../controllers/festumevento/livestream/
 const approvedisapproveLivestreamCtrl = require('../../controllers/festumevento/livestream/approvedisapprove');
 const attendeesLivestreamCtrl = require('../../controllers/festumevento/livestream/attendees');
 router.post('/', helper.authenticateToken, listLivestreamCtrl.withpagination);
-router.post('/getone', helper.authenticateToken, getoneLivestreamCtrl.getone);
+router.post('/getone', helper.authenticateToken, getoneLivestreamCtrl.getonelivestream);
 router.post('/approvedisapprove', helper.authenticateToken, approvedisapproveLivestreamCtrl.approvedisapprovelivestream);
 router.post('/attendees', helper.authenticateToken, attendeesLivestreamCtrl.attendees);
 router.post('/exportattendees', helper.authenticateToken, attendeesLivestreamCtrl.export);
