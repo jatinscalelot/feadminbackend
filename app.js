@@ -47,6 +47,9 @@ const festumeventopaths = [
   { pathUrl: '/eventcoupon', routeFile: 'eventcoupon' },
   { pathUrl: '/eventcategory', routeFile: 'eventcategory' },
   { pathUrl: '/fcoin', routeFile: 'fcoin' },
+  { pathUrl: '/seatingitem', routeFile: 'item' },
+  { pathUrl: '/livestream', routeFile: 'livestream' },
+  
 ];
 superadminpaths.forEach((path) => {
   app.use('/admin' + path.pathUrl, require('./routes/superadmin/' + path.routeFile));
