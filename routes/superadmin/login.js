@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
     res.setHeader('Access-Control-Allow-Origin', '*');
     const { adminid, password } = req.body;
-    if(adminid && password && password.length >= 8){
+    if(adminid && password && password.length >= 6){
         let primary = mongoConnection.useDb(constants.DEFAULT_DB);
         let superadminData = await primary.model(constants.MODELS.admins, adminModel).findOne({adminid: adminid, status: true}).lean();
         if(superadminData && superadminData != null && superadminData.status == true && superadminData.roleId && superadminData.roleId != '' && mongoose.Types.ObjectId.isValid(superadminData.roleId)){
