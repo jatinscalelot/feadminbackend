@@ -48,35 +48,39 @@ exports.saveadmin = async (req, res) => {
                                             }                               
                                         }else{
                                             let checkExisting = await primary.model(constants.MODELS.admins, adminModel).findOne({$or: [{ name: name },{ email: email },{ mobile: mobile }, { adminid: adminid }],}).lean();
-                                            if(checkExisting == null) {
-                                                let obj = {
-                                                    name : name,
-                                                    email : email,
-                                                    mobile : mobile,
-                                                    country_code : country_code,
-                                                    country_wise_contact : country_wise_contact,
-                                                    password : await helper.passwordEncryptor(password),
-                                                    fcm_token : '',
-                                                    status : true,
-                                                    about : (about && about != '') ? about : '',
-                                                    city : (city && city != '') ? city : '',
-                                                    country : (country && country != '') ? country : '',
-                                                    dob : (dob && dob != '') ? dob : '',
-                                                    pincode : (pincode && pincode != '') ? pincode : '',
-                                                    state : (state && state != '') ? state : '',
-                                                    profile_pic : '',
-                                                    adminid : adminid,
-                                                    channelID : '',
-                                                    roleId : new mongoose.Types.ObjectId(roleId),
-                                                    createdBy : new mongoose.Types.ObjectId(admindata._id),
-                                                    updatedBy : new mongoose.Types.ObjectId(admindata._id)
-                                                };
-                                                let createdAdmin = await primary.model(constants.MODELS.admins, adminModel).create(obj);
-                                                await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(createdAdmin._id, { channelID: createdAdmin.mobile.toString() + '_' + createdAdmin._id.toString() });
-                                                let adminData = await primary.model(constants.MODELS.admins, adminModel).findById(createdAdmin._id).lean();
-                                                return responseManager.onSuccess('Admin created successfully!', adminData, res);
+                                            if(password && password != '' && password.length >= 8){
+                                                if(checkExisting == null) {
+                                                    let obj = {
+                                                        name : name,
+                                                        email : email,
+                                                        mobile : mobile,
+                                                        country_code : country_code,
+                                                        country_wise_contact : country_wise_contact,
+                                                        password : await helper.passwordEncryptor(password),
+                                                        fcm_token : '',
+                                                        status : true,
+                                                        about : (about && about != '') ? about : '',
+                                                        city : (city && city != '') ? city : '',
+                                                        country : (country && country != '') ? country : '',
+                                                        dob : (dob && dob != '') ? dob : '',
+                                                        pincode : (pincode && pincode != '') ? pincode : '',
+                                                        state : (state && state != '') ? state : '',
+                                                        profile_pic : '',
+                                                        adminid : adminid,
+                                                        channelID : '',
+                                                        roleId : new mongoose.Types.ObjectId(roleId),
+                                                        createdBy : new mongoose.Types.ObjectId(admindata._id),
+                                                        updatedBy : new mongoose.Types.ObjectId(admindata._id)
+                                                    };
+                                                    let createdAdmin = await primary.model(constants.MODELS.admins, adminModel).create(obj);
+                                                    await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(createdAdmin._id, { channelID: createdAdmin.mobile.toString() + '_' + createdAdmin._id.toString() });
+                                                    let adminData = await primary.model(constants.MODELS.admins, adminModel).findById(createdAdmin._id).lean();
+                                                    return responseManager.onSuccess('Admin created successfully!', adminData, res);
+                                                }else{
+                                                    return responseManager.badrequest({ message: 'Identical Admin, Admin data already exist with either Name, Email, Mobile, or AdminID please try again' }, res);
+                                                }
                                             }else{
-                                                return responseManager.badrequest({ message: 'Identical Admin, Admin data already exist with either Name, Email, Mobile, or AdminID please try again' }, res);
+                                                return responseManager.badrequest({ message: 'Password must be 8 chars long and can not be empty while creating new Admin user, please try again' }, res);
                                             }
                                         }
                                     }else{

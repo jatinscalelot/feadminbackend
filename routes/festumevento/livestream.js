@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 const helper = require('../../utilities/helper');
-const listLivestreamCtrl = require('../../controllers/festumevento/livestream/list');
-const getoneLivestreamCtrl = require('../../controllers/festumevento/livestream/getone');
-const approvedisapproveLivestreamCtrl = require('../../controllers/festumevento/livestream/approvedisapprove');
-const attendeesLivestreamCtrl = require('../../controllers/festumevento/livestream/attendees');
+const listLivestreamCtrl = require('../../controllers/festumevento/livestreams/list');
+const getoneLivestreamCtrl = require('../../controllers/festumevento/livestreams/getone');
+const approvedisapproveLivestreamCtrl = require('../../controllers/festumevento/livestreams/approvedisapprove');
+const attendeesLivestreamCtrl = require('../../controllers/festumevento/livestreams/attendees');
 router.post('/', helper.authenticateToken, listLivestreamCtrl.withpagination);
 router.post('/getone', helper.authenticateToken, getoneLivestreamCtrl.getonelivestream);
 router.post('/approvedisapprove', helper.authenticateToken, approvedisapproveLivestreamCtrl.approvedisapprovelivestream);
