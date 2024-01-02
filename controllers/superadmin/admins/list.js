@@ -45,8 +45,8 @@ exports.listwithpagination = async (req, res) => {
                     sort: { "_id" : -1 },
                     populate: [
                         {path : 'roleId', model: primary.model(constants.MODELS.roles, roleModel)},
-                        {path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel)},
-                        {path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel)}
+                        {path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},
+                        {path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}
                     ],
                     select : "-password",
                     lean: true
