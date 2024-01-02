@@ -20,12 +20,12 @@ exports.activeinactiverole = async (req, res) => {
                     let roledata = await primary.model(constants.MODELS.roles, roleModel).findById(roleid).lean();
                     if(roledata){
                         if(roledata.status == true){
-                            await primary.model(constants.MODELS.roles, roleModel).findByIdAndUpdate(roleid, {status : false});
-                            let updatedRole = await primary.model(constants.MODELS.roles, roleModel).findById(roleid).lean();
+                            await primary.model(constants.MODELS.roles, roleModel).findByIdAndUpdate(roleid, {status : false, updatedBy: mongoose.Types.ObjectId(admindata._id)});
+                            let updatedRole = await primary.model(constants.MODELS.roles, roleModel).findById(roleid).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                             return responseManager.onSuccess('Role status updated successfully!', updatedRole, res);
                         }else{
-                            await primary.model(constants.MODELS.roles, roleModel).findByIdAndUpdate(roleid, {status : true});
-                            let updatedRole = await primary.model(constants.MODELS.roles, roleModel).findById(roleid).lean();
+                            await primary.model(constants.MODELS.roles, roleModel).findByIdAndUpdate(roleid, {status : true, updatedBy: mongoose.Types.ObjectId(admindata._id)});
+                            let updatedRole = await primary.model(constants.MODELS.roles, roleModel).findById(roleid).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                             return responseManager.onSuccess('Role status updated successfully!', updatedRole, res);
                         }
                     }else{

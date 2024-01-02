@@ -9,7 +9,7 @@ exports.getadminprofile = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     if (req.token.superadminid && req.token.superadminid != '' && req.token.superadminid != null && mongoose.Types.ObjectId.isValid(req.token.superadminid)) {
         let primary = mongoConnection.useDb(constants.DEFAULT_DB);
-        let admindata = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).select("-password -fcm_token -status -createdBy -updatedBy -createdAt -updatedAt -channelID").populate({ path: 'roleId', model: primary.model(constants.MODELS.roles, roleModel) }).lean();
+        let admindata = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).select("-password -fcm_token -status -channelID").populate([{ path: 'roleId', model: primary.model(constants.MODELS.roles, roleModel) }, { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
         if (admindata) {
             return responseManager.onSuccess('Admin data!', admindata, res);
         } else {

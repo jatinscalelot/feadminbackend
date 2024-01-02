@@ -59,6 +59,10 @@ exports.withpagination = async (req, res) => {
                     limit: parseInt(limit),
                     sort: { "_id" : -1 },
                     select: "-permissions -__v",
+                    populate : [
+                        { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" },
+                        { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                    ],
                     lean: true
                 }).then((roleList) => {
                     roleList.totalroles = totalRoles;

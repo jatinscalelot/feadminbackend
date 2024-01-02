@@ -39,7 +39,7 @@ exports.saveproject = async (req, res) => {
                                                                 updatedBy: new mongoose.Types.ObjectId(admindata._id)
                                                             };
                                                             await primary.model(constants.MODELS.projects, projectModel).findByIdAndUpdate(projectid, obj);
-                                                            let updatedData = await primary.model(constants.MODELS.projects, projectModel).findById(projectid).lean();
+                                                            let updatedData = await primary.model(constants.MODELS.projects, projectModel).findById(projectid).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                                                             return responseManager.onSuccess('Project Data Updated Successfully...', updatedData, res);
                                                         })().catch((error) => { return responseManager.onError(error, res); });
                                                     } else {
@@ -60,7 +60,7 @@ exports.saveproject = async (req, res) => {
                                             updatedBy: new mongoose.Types.ObjectId(admindata._id)
                                         };
                                         await primary.model(constants.MODELS.projects, projectModel).findByIdAndUpdate(projectid, obj);
-                                        let updatedData = await primary.model(constants.MODELS.projects, projectModel).findById(projectid).lean();
+                                        let updatedData = await primary.model(constants.MODELS.projects, projectModel).findById(projectid).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                                         return responseManager.onSuccess('Project Data Updated Successfully...', updatedData, res);
                                     }
                                 } else {
@@ -84,7 +84,8 @@ exports.saveproject = async (req, res) => {
                                                             updatedBy: new mongoose.Types.ObjectId(admindata._id)
                                                         };
                                                         let newcreatedData = await primary.model(constants.MODELS.projects, projectModel).create(obj);
-                                                        return responseManager.onSuccess('Project created successfully!', newcreatedData, res);
+                                                        let newData = await primary.model(constants.MODELS.projects, projectModel).findById(newcreatedData._id).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
+                                                        return responseManager.onSuccess('Project created successfully!', newData, res);
                                                     })().catch((error) => { return responseManager.onError(error, res); });
                                                 } else {
                                                     return responseManager.badrequest({ message: 'Invalid Images file for Project Pic, Unable to upload the file, please try again' }, res);

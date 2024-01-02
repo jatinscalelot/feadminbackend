@@ -29,7 +29,7 @@ exports.saverole = async (req, res) => {
                                         updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)
                                     };
                                     await primary.model(constants.MODELS.roles, roleModel).findByIdAndUpdate(roleid, obj);
-                                    let updatedRole =  await primary.model(constants.MODELS.roles, roleModel).findById(roleid).lean();
+                                    let updatedRole =  await primary.model(constants.MODELS.roles, roleModel).findById(roleid).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                                     return responseManager.onSuccess('Role updated successfully!', updatedRole, res);
                                 }else{
                                     return responseManager.badrequest({ message: 'Identical Role, Role data already exist with same Name, Please try again' }, res);
@@ -46,7 +46,8 @@ exports.saverole = async (req, res) => {
                                         updatedBy : new mongoose.Types.ObjectId(req.token.superadminid),
                                     };
                                     let newrole = await primary.model(constants.MODELS.roles, roleModel).create(obj);
-                                    return responseManager.onSuccess('Role created successfully!', newrole, res);
+                                    let newData = await primary.model(constants.MODELS.roles, roleModel).findById(newrole._id).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
+                                    return responseManager.onSuccess('Role created successfully!', newData, res);
                                 }else{
                                     return responseManager.badrequest({ message: 'Identical Role, Role data already exist with same Name, Please try again' }, res);
                                 }

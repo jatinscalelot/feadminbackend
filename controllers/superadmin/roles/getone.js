@@ -17,7 +17,7 @@ exports.getonerole = async (req, res) => {
             if (havePermission) {
                 const { roleid } = req.body;
                 if (roleid && roleid != '' && roleid != null && mongoose.Types.ObjectId.isValid(roleid)) {
-                    let existingRole = await primary.model(constants.MODELS.roles, roleModel).findById(roleid).lean();
+                    let existingRole = await primary.model(constants.MODELS.roles, roleModel).findById(roleid).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                     if (existingRole) {
                         return responseManager.onSuccess('Role details!', existingRole, res);
                     } else {

@@ -17,7 +17,7 @@ exports.getoneproject = async (req, res) => {
             if (havePermission) {
                 const { projectid } = req.body;
                 if (projectid && projectid != '' && projectid != null && mongoose.Types.ObjectId.isValid(projectid)) {
-                    let existingProject = await primary.model(constants.MODELS.projects, projectModel).findById(projectid).lean();
+                    let existingProject = await primary.model(constants.MODELS.projects, projectModel).findById(projectid).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                     if (existingProject) {
                         return responseManager.onSuccess('Project details!', existingProject, res);
                     } else {

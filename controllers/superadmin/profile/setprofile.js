@@ -29,7 +29,7 @@ exports.setadminprofile = async (req, res) => {
                                 updatedBy: new mongoose.Types.ObjectId(req.token.superadminid),
                             };
                             await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(req.token.superadminid, obj);
-                            let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).lean();
+                            let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).populate([{ path: 'roleId', model: primary.model(constants.MODELS.roles, roleModel) }, { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                             return responseManager.onSuccess('Admin data updated successfully!', updatedAdmin, res);
                         } else {
                             return responseManager.badrequest({ message: 'Identical Admin, Admin data already exist with either Name, Email, or Mobile please try again' }, res);
