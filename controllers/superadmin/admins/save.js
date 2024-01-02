@@ -41,7 +41,7 @@ exports.saveadmin = async (req, res) => {
                                                     updatedBy : new mongoose.Types.ObjectId(admindata._id)
                                                 };
                                                 await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(saadminid, obj);
-                                                let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel)},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel)}]).lean();
+                                                let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();
                                                 return responseManager.onSuccess('Admin data updated successfully!', updatedAdmin, res);
                                             }else{
                                                 return responseManager.badrequest({ message: 'Identical Admin, Admin data already exist with either Name, Email, Mobile, or AdminID please try again' }, res);
@@ -74,7 +74,7 @@ exports.saveadmin = async (req, res) => {
                                                     };
                                                     let createdAdmin = await primary.model(constants.MODELS.admins, adminModel).create(obj);
                                                     await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(createdAdmin._id, { channelID: createdAdmin.mobile.toString() + '_' + createdAdmin._id.toString() });
-                                                    let adminData = await primary.model(constants.MODELS.admins, adminModel).findById(createdAdmin._id).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel)},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel)}]).lean();
+                                                    let adminData = await primary.model(constants.MODELS.admins, adminModel).findById(createdAdmin._id).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();
                                                     return responseManager.onSuccess('Admin created successfully!', adminData, res);
                                                 }else{
                                                     return responseManager.badrequest({ message: 'Identical Admin, Admin data already exist with either Name, Email, Mobile, or AdminID please try again' }, res);
