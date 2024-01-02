@@ -18,12 +18,12 @@ exports.activeinactiveadmin = async (req, res) => {
                     let existingAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).lean();
                     if(existingAdmin){
                         if(existingAdmin.status == true){
-                            await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(saadminid, {status : false});
-                            let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).lean();
+                            await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(saadminid, {status : false, updatedBy: mongoose.Types.ObjectId(admindata._id)});
+                            let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel)},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel)}]).lean();
                             return responseManager.onSuccess('Admin status updated successfully!', updatedAdmin, res);
                         }else{
-                            await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(saadminid, {status : true});
-                            let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).lean();
+                            await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(saadminid, {status : true, updatedBy: mongoose.Types.ObjectId(admindata._id)});
+                            let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel)},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel)}]).lean();
                             return responseManager.onSuccess('Admin status updated successfully!', updatedAdmin, res);
                         }
                     }else{
