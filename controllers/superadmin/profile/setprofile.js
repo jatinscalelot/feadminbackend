@@ -8,7 +8,7 @@ exports.setadminprofile = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     if (req.token.superadminid && req.token.superadminid != '' && req.token.superadminid != null && mongoose.Types.ObjectId.isValid(req.token.superadminid)) {
         let primary = mongoConnection.useDb(constants.DEFAULT_DB);
-        const { name, email, mobile, country_code, about, city, country, dob, pincode, state } = req.body;
+        const { name, email, mobile, country_code, country_wise_contact, about, city, country, dob, pincode, state } = req.body;
         if (name && name.trim() != '') {
             if (email && email.trim() != '' && (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))) {
                 if (mobile && mobile.trim() != '' && mobile.length == 10) {
@@ -26,6 +26,7 @@ exports.setadminprofile = async (req, res) => {
                                 dob: (dob && dob != '') ? dob : '',
                                 pincode: (pincode && pincode != '') ? pincode : '',
                                 state: (state && state != '') ? state : '',
+                                country_wise_contact : country_wise_contact,
                                 updatedBy: new mongoose.Types.ObjectId(req.token.superadminid),
                             };
                             await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(req.token.superadminid, obj);

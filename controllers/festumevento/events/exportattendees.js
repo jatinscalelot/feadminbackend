@@ -3,6 +3,7 @@ const responseManager = require('../../../utilities/response.manager');
 const mongoConnection = require('../../../utilities/connections');
 const constants = require('../../../utilities/constants');
 const AwsCloud = require('../../../utilities/aws');
+const config = require('../../../utilities/config');
 const organizerModel = require('../../../models/festumevento/organizers.model');
 const eventModel = require('../../../models/festumevento/events.model');
 const eventbookingModel = require('../../../models/festumevento/eventbookings.model');

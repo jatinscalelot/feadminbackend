@@ -6,6 +6,7 @@ const agentModel = require('../../../models/festumevento/agents.model');
 const adminModel = require('../../../models/superadmin/admins.model');
 const mongoose = require('mongoose');
 const AwsCloud = require('../../../utilities/aws');
+const config = require('../../../utilities/config');
 var jsonexcel = require('exceljs');
 var fs = require('fs');
 var excelFileName = 'downloadFiles/agentReport.xlsx';

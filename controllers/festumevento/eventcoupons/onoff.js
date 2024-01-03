@@ -1,6 +1,7 @@
 const mongoConnection = require('../../../utilities/connections');
 const responseManager = require('../../../utilities/response.manager');
 const constants = require('../../../utilities/constants');
+const config = require('../../../utilities/config');
 const adminModel = require('../../../models/superadmin/admins.model');
 const eventbookingcouponModel = require('../../../models/festumevento/eventbookingcoupons.model');
 const mongoose = require('mongoose');

@@ -51,6 +51,12 @@ module.exports.onNewOnlineOffer = (channelID, reqData) => {
 module.exports.onEditOnlineOffer = (channelID, reqData) => {
     io.emit(channelID, { event: 'onEditOnlineOffer', data : reqData });
 };
+module.exports.onOnlineOfferDisapproved = (channelID, reqData) => {
+    io.emit(channelID, { event: 'onOnlineOfferDisapproved', data : reqData });
+};
+module.exports.onOnlineOfferApproved = (channelID, reqData) => {
+    io.emit(channelID, { event: 'onOnlineOfferApproved', data : reqData });
+};
 // Livestream endpoints
 module.exports.onNewLivestream = (channelID, reqData) => {
     io.emit(channelID, { event: 'onNewLivestream', data : reqData });

@@ -1,6 +1,7 @@
 const mongoConnection = require('../../../utilities/connections');
 const responseManager = require('../../../utilities/response.manager');
 const constants = require('../../../utilities/constants');
+const config = require('../../../utilities/config');
 const adminModel = require('../../../models/superadmin/admins.model');
 const fcoinsModel = require('../../../models/festumevento/fcoins.model');
 const mongoose = require('mongoose');

@@ -2,6 +2,7 @@ const mongoConnection = require('../../../utilities/connections');
 const responseManager = require('../../../utilities/response.manager');
 const constants = require('../../../utilities/constants');
 const AwsCloud = require('../../../utilities/aws');
+const config = require('../../../utilities/config');
 const allowedContentTypes = require('../../../utilities/content-types');
 const adminModel = require('../../../models/superadmin/admins.model');
 const fcoinintransactionsModel = require('../../../models/festumevento/fcoinintransactions.model');
