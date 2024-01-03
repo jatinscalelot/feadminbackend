@@ -2,6 +2,7 @@ const mongoConnection = require('../../../utilities/connections');
 const responseManager = require('../../../utilities/response.manager');
 const constants = require('../../../utilities/constants');
 const adminModel = require('../../../models/superadmin/admins.model');
+const roleModel = require('../../../models/superadmin/roles.model');
 const mongoose = require('mongoose');
 exports.setadminprofile = async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
