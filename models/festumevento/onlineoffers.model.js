@@ -14,7 +14,7 @@ let product_links_Schema = new mongoose.Schema({
 		type: mongoose.Types.ObjectId,
 		required: true
 	}
-}, { _id: false });
+}, { _id: false }); 
 let schema = new mongoose.Schema({
 	product_links : [product_links_Schema],
 	createdBy: {

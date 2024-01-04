@@ -1,127 +1,43 @@
 let mongoose = require("mongoose");
 let mongoosePaginate = require("mongoose-paginate-v2");
+let permission_Schema = new mongoose.Schema({
+	collectionName: {
+		type: String,
+		default: "",
+	},
+	insertUpdate: {
+		type: Boolean,
+		default: true,
+	},
+	delete: {
+		type: Boolean,
+		default: true,
+	},
+	view: {
+		type: Boolean,
+		default: true,
+	},
+}, { _id: false });
 let schema = new mongoose.Schema({
-	name : {
+	name: {
 		type: String,
 		require: true
 	},
-	description : {
+	description: {
 		type: String,
 		require: true
 	},
-	status : {
+	status: {
 		type: Boolean,
 		default: true
 	},
-	permissions : {
-		superadmin: [{
-			collectionName: {
-				type: String,
-				default: "",
-			},
-			insertUpdate: {
-				type: Boolean,
-				default: true,
-			},
-			delete: {
-				type: Boolean,
-				default: true,
-			},
-			view: {
-				type: Boolean,
-				default: true,
-			},
-		}],
-		festumevento: [{
-			collectionName: {
-				type: String,
-				default: "",
-			},
-			insertUpdate: {
-				type: Boolean,
-				default: true,
-			},
-			delete: {
-				type: Boolean,
-				default: true,
-			},
-			view: {
-				type: Boolean,
-				default: true,
-			},
-		}],
-		eventopackage: [{
-			collectionName: {
-				type: String,
-				default: "",
-			},
-			insertUpdate: {
-				type: Boolean,
-				default: true,
-			},
-			delete: {
-				type: Boolean,
-				default: true,
-			},
-			view: {
-				type: Boolean,
-				default: true,
-			},
-		}],
-		festumfield: [{
-			collectionName: {
-				type: String,
-				default: "",
-			},
-			insertUpdate: {
-				type: Boolean,
-				default: true,
-			},
-			delete: {
-				type: Boolean,
-				default: true,
-			},
-			view: {
-				type: Boolean,
-				default: true,
-			},
-		}],
-		festumcoin: [{
-			collectionName: {
-				type: String,
-				default: "",
-			},
-			insertUpdate: {
-				type: Boolean,
-				default: true,
-			},
-			delete: {
-				type: Boolean,
-				default: true,
-			},
-			view: {
-				type: Boolean,
-				default: true,
-			},
-		}],
-		festumadvertisingmedia: [{
-			collectionName: {
-				type: String,
-				default: "",
-			},
-			insertUpdate: {
-				type: Boolean,
-				default: true,
-			},
-			delete: {
-				type: Boolean,
-				default: true,
-			},
-			view: {
-				type: Boolean,
-				default: true,
-			},
-		}],
+	permissions: {
+		superadmin: [permission_Schema],
+		festumevento: [permission_Schema],
+		eventopackage: [permission_Schema],
+		festumfield: [permission_Schema],
+		festumcoin: [permission_Schema],
+		festumadvertisingmedia: [permission_Schema],
 	},
 	createdBy: {
 		type: mongoose.Types.ObjectId,
