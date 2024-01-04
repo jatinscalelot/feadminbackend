@@ -29,7 +29,10 @@ exports.saveeventcategory = async (req, res) => {
                                         updatedBy: mongoose.Types.ObjectId(req.token.superadminid)
                                     };
                                     await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findByIdAndUpdate(categoryid, obj);
-                                    let updatedData = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findById(categoryid).lean();
+                                    let updatedData = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findById(categoryid).populate([
+                                        { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                                        { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                                    ]).lean();
                                     return responseManager.onSuccess('Category updated sucecssfully!', updatedData, res);
                                 } else {
                                     return responseManager.badrequest({ message: 'Category name can not be identical, please try again' }, res);
@@ -46,7 +49,11 @@ exports.saveeventcategory = async (req, res) => {
                                         updatedBy: mongoose.Types.ObjectId(req.token.superadminid)
                                     };
                                     let insertedData = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).create(obj);
-                                    return responseManager.onSuccess('Category created sucecssfully!', insertedData, res);
+                                    let newinsertedData = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findById(insertedData._id).populate([
+                                        { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                                        { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                                    ]).lean();
+                                    return responseManager.onSuccess('Category created sucecssfully!', newinsertedData, res);
                                 } else {
                                     return responseManager.badrequest({ message: 'Category name can not be identical, please try again' }, res);
                                 }

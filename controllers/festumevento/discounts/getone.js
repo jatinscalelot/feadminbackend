@@ -17,7 +17,10 @@ exports.getonediscount = async (req, res) => {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
                 const { discountid } = req.body;
                 if( discountid && discountid != '' && mongoose.Types.ObjectId.isValid(discountid)){
-                    let discountData = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findById(discountid).lean();
+                    let discountData = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findById(discountid).populate([
+                        { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                        { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                    ]).lean();
                     if(discountData){
                         return responseManager.onSuccess('Discount data!', discountData, res);
                     }else{

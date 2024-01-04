@@ -30,7 +30,10 @@ exports.savediscount = async (req, res) => {
                                 updatedBy : mongoose.Types.ObjectId(req.token.superadminid)
                             };
                             await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findByIdAndUpdate(discountid, obj);
-                            let updatedData = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findById(discountid).lean();
+                            let updatedData = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findById(discountid).populate([
+                                { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                                { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                            ]).lean();
                             return responseManager.onSuccess('Discount updated sucecssfully!', updatedData, res);
                         }else{
                             return responseManager.badrequest({ message: 'Discount name can not be identical, please try again' }, res);
@@ -49,7 +52,11 @@ exports.savediscount = async (req, res) => {
                                 updatedBy : mongoose.Types.ObjectId(req.token.superadminid)
                             };
                             let insertedData = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).create(obj);
-                            return responseManager.onSuccess('Discount created sucecssfully!', insertedData, res);
+                            let newinsertedData = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findById(insertedData._id).populate([
+                                { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                                { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                            ]).lean();
+                            return responseManager.onSuccess('Discount created sucecssfully!', newinsertedData, res);
                         }else{
                             return responseManager.badrequest({ message: 'Discount name can not be identical, please try again' }, res);
                         }

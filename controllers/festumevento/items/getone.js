@@ -17,7 +17,10 @@ exports.getoneitem = async (req, res) => {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
                 const { itemid } = req.body;
                 if(itemid && itemid != '' && mongoose.Types.ObjectId.isValid(itemid)){
-                    let itemData = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findById(itemid);
+                    let itemData = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findById(itemid).populate([
+                        { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                        { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                    ]).lean();
                     return responseManager.onSuccess('Item data!', itemData, res);
                 }else{
                     return responseManager.badrequest({ message: 'Invalid item id to get item data, please try again' }, res);

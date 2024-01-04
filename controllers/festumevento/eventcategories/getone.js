@@ -17,7 +17,10 @@ exports.getoneeventcategory = async (req, res) => {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
                 const { categoryid } = req.body;
                 if (categoryid && categoryid != '' && mongoose.Types.ObjectId.isValid(categoryid)) {
-                    let eventcategoryData = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findById(categoryid).lean();
+                    let eventcategoryData = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findById(categoryid).populate([
+                        { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                        { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                    ]).lean();
                     if(eventcategoryData){
                         return responseManager.onSuccess('Event category status updated successfully!', eventcategoryData, res);
                     }else{

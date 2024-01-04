@@ -37,6 +37,10 @@ exports.withpagination = async (req, res) => {
                     page,
                     limit: parseInt(limit),
                     sort: { "_id": -1 },
+                    populate: ([
+                        { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                        { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                    ]),
                     lean: true
                 }).then((categories) => {
                     categories.totalEventcategories = totalEventcategories;

@@ -20,12 +20,18 @@ exports.onoffdiscount = async (req, res) => {
                     let discountData = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findById(discountid).lean();
                     if(discountData){
                         if(discountData.status == true){
-                            await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findByIdAndUpdate(discountid, {status : false});
-                            let updatedDiscount = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findById(discountid).lean();
+                            await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findByIdAndUpdate(discountid, {status : false, updatedBy : mongoose.Types.ObjectId(req.token.superadminid) });
+                            let updatedDiscount = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findById(discountid).populate([
+                                { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                                { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                            ]).lean();
                             return responseManager.onSuccess('Discount status updated successfully!', updatedDiscount, res);
                         }else{
-                            await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findByIdAndUpdate(discountid, {status : true});
-                            let updatedDiscount = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findById(discountid).lean();
+                            await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findByIdAndUpdate(discountid, {status : true, updatedBy : mongoose.Types.ObjectId(req.token.superadminid) });
+                            let updatedDiscount = await festumeventoDB.model(constants.FE_MODELS.discounts, discountModel).findById(discountid).populate([
+                                { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                                { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                            ]).lean();
                             return responseManager.onSuccess('Discount status updated successfully!', updatedDiscount, res);
                         }
                     }else{

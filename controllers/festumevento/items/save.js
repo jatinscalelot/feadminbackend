@@ -37,7 +37,10 @@ exports.saveitem = async (req, res) => {
                                                         updatedBy: new mongoose.Types.ObjectId(admindata._id)
                                                     };
                                                     await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findByIdAndUpdate(itemid, obj);
-                                                    let updatedData = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findById(itemid).lean();
+                                                    let updatedData = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findById(itemid).populate([
+                                                        { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                                                        { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                                                    ]).lean();
                                                     return responseManager.onSuccess('Item Data Updated Successfully...', updatedData, res);
                                                 })().catch((error) => { return responseManager.onError(error, res); });
                                             } else {
@@ -58,7 +61,10 @@ exports.saveitem = async (req, res) => {
                                     updatedBy: new mongoose.Types.ObjectId(admindata._id)
                                 };
                                 await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findByIdAndUpdate(itemid, obj);
-                                let updatedData = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findById(itemid).lean();
+                                let updatedData = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findById(itemid).populate([
+                                    { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                                    { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                                ]).lean();
                                 return responseManager.onSuccess('Item Data Updated Successfully...', updatedData, res);
                             }
                         } else {
@@ -84,7 +90,11 @@ exports.saveitem = async (req, res) => {
                                                         updatedBy: new mongoose.Types.ObjectId(admindata._id)
                                                     };
                                                     let insertedData = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).create(obj);
-                                                    return responseManager.onSuccess('Item Data Created Successfully...', insertedData, res);
+                                                    let newinsertedData = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findById(insertedData._id).populate([
+                                                        { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
+                                                        { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
+                                                    ]).lean();
+                                                    return responseManager.onSuccess('Item Data Created Successfully...', newinsertedData, res);
                                                 })().catch((error) => { return responseManager.onError(error, res); });
                                             } else {
                                                 return responseManager.badrequest({ message: 'Invalid Images file for Item Pic, Unable to upload the file, please try again' }, res);

@@ -1,9 +1,13 @@
 const mongoConnection = require('../../../utilities/connections');
 const responseManager = require('../../../utilities/response.manager');
 const constants = require('../../../utilities/constants');
+const helper = require('../../../utilities/helper');
 const config = require('../../../utilities/config');
+const fileHelper = require('../../../utilities/multer.functions');
+const AwsCloud = require('../../../utilities/aws');
+const allowedContentTypes = require('../../../utilities/content-types');
 const adminModel = require('../../../models/superadmin/admins.model');
-const eventbookingcouponModel = require('../../../models/festumevento/eventbookingcoupons.model');
+const platformModel = require('../../../models/festumevento/platforms.model');
 const mongoose = require('mongoose');
 exports.withpagination = async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
@@ -12,7 +16,7 @@ exports.withpagination = async (req, res) => {
         let primary = mongoConnection.useDb(constants.DEFAULT_DB);
         let admindata = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).lean();
         if(admindata){
-            let havePermission = await config.getPermission(admindata.roleId, "eventbookingcoupons", "view", "festumevento", primary);
+            let havePermission = await config.getPermission(admindata.roleId, "platforms", "view", "festumevento", primary);
             if (havePermission) {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
                 const { page, limit, search, status } = req.body;
@@ -24,17 +28,16 @@ exports.withpagination = async (req, res) => {
                         query.status = true;
                     }
                 }
-                let totalEventbookingcoupons = parseInt(await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).countDocuments({}));
-                let totalActiveEventbookingcoupons = parseInt(await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).countDocuments({status : true}));
-                let totalInActiveEventbookingcoupons = parseInt(await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).countDocuments({status : false}));
-                festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).paginate({
+                let totalPlatforms = parseInt(await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).countDocuments({}));
+                let totalActivePlatforms = parseInt(await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).countDocuments({ status : true }));
+                let totalInActivePlatforms = parseInt(await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).countDocuments({ status : false}));
+                festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).paginate({
                     $or: [
-                        { title : { '$regex' : new RegExp(search, "i") } },
-                        { code : { '$regex' : new RegExp(search, "i") } },
+                        { name : { '$regex' : new RegExp(search, "i") } },
                         { description : { '$regex' : new RegExp(search, "i") } },
                     ],
                     ...query
-                },{
+                }, {
                     page,
                     limit: parseInt(limit),
                     sort: { _id : -1 },
@@ -43,11 +46,11 @@ exports.withpagination = async (req, res) => {
                         { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
                     ]),
                     lean: true
-                }).then((eventbookingcoupons) => {
-                    eventbookingcoupons.totalEventbookingcoupons = totalEventbookingcoupons;
-                    eventbookingcoupons.totalActiveEventbookingcoupons = totalActiveEventbookingcoupons;
-                    eventbookingcoupons.totalInActiveEventbookingcoupons = totalInActiveEventbookingcoupons;
-                    return responseManager.onSuccess('event booking coupons list!', eventbookingcoupons, res);
+                }).then((platformList) => {
+                    platformList.totalPlatforms = totalPlatforms;
+                    platformList.totalActivePlatforms = totalActivePlatforms;
+                    platformList.totalInActivePlatforms = totalInActivePlatforms;
+                    return responseManager.onSuccess('organizers list!', platformList, res);
                 }).catch((error) => {
                     return responseManager.onError(error, res);
                 });
@@ -68,11 +71,11 @@ exports.withoutpagination = async (req, res) => {
         let primary = mongoConnection.useDb(constants.DEFAULT_DB);
         let admindata = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).lean();
         if(admindata){
-            let havePermission = await config.getPermission(admindata.roleId, "eventbookingcoupons", "view", "festumevento", primary);
+            let havePermission = await config.getPermission(admindata.roleId, "platforms", "view", "festumevento", primary);
             if (havePermission) {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
-                let activeEventBookingCoupons = await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).find({status : true}).lean();
-                return responseManager.onSuccess('eventbookingcoupons list!', activeEventBookingCoupons, res);
+                let allPlatforms = festumeventoDB.model(constants.MODELS.platforms, platformModel).find({status : true}).lean();
+                return responseManager.onSuccess('Platforms list!', allPlatforms, res);
             }else{
                 return responseManager.forbiddenRequest(res);
             }
