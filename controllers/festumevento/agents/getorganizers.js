@@ -21,7 +21,7 @@ exports.getorganizersbyagent = async (req, res) => {
                     let agentData = await festumeventoDB.model(constants.FE_MODELS.agents, agentModel).findById(agentid).lean();
                     if(agentData){
                         let organiserList = await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).find({agentid : new mongoose.Types.ObjectId(agentid)
-                        }).lean();
+                        }).select("-password").lean();
                         return responseManager.onSuccess('Organizer data !', organiserList, res);
                     }else{
                         return responseManager.badrequest({ message: 'Agent Not Found, Invalid agent id to get agent data, please try again' }, res);
