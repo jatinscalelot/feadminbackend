@@ -28,17 +28,33 @@ exports.withpagination = async (req, res) => {
                 if (event_category && event_category != '' && mongoose.Types.ObjectId.isValid(event_category)) {
                     query.event_category = new mongoose.Types.ObjectId(event_category);
                 }
-                if (status && status != null && status != undefined) {
-                    query.status = status;
+                if(status != 'All'){
+                    if(status == 'InActive'){
+                        query.status = false;
+                    }else if(status == 'Active'){
+                        query.status = true;
+                    }
                 }
-                if (approval_status && approval_status != null && approval_status != undefined) {
-                    query.is_approved = approval_status;
+                if(approval_status != 'All'){
+                    if(approval_status == 'InActive'){
+                        query.is_approved = false;
+                    }else if(approval_status == 'Active'){
+                        query.is_approved = true;
+                    }
                 }
-                if (live_status && live_status != null && live_status != undefined) {
-                    query.is_live = live_status;
+                if(live_status != 'All'){
+                    if(live_status == 'InActive'){
+                        query.is_live = false;
+                    }else if(live_status == 'Active'){
+                        query.is_live = true;
+                    }
                 }
-                if (booking_status && booking_status != null && booking_status != undefined) {
-                    query.accept_booking = booking_status;
+                if(booking_status != 'All'){
+                    if(booking_status == 'InActive'){
+                        query.accept_booking = false;
+                    }else if(booking_status == 'Active'){
+                        query.accept_booking = true;
+                    }
                 }
                 let totalEvents = parseInt(await festumeventoDB.model(constants.FE_MODELS.events, eventModel).countDocuments({}));
                 let totalApprovedEvents = parseInt(await festumeventoDB.model(constants.FE_MODELS.events, eventModel).countDocuments({ status : true, is_approved : true }));

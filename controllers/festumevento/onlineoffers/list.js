@@ -25,14 +25,26 @@ exports.withpagination = async (req, res) => {
                 if (organizerid && organizerid != '' && mongoose.Types.ObjectId.isValid(organizerid)) {
                     query.createdBy = new mongoose.Types.ObjectId(organizerid);
                 }
-                if (status && status != null && status != undefined) {
-                    query.status = status;
+                if(status != 'All'){
+                    if(status == 'InActive'){
+                        query.status = false;
+                    }else if(status == 'Active'){
+                        query.status = true;
+                    }
                 }
-                if (approval_status && approval_status != null && approval_status != undefined) {
-                    query.is_approved = approval_status;
+                if(approval_status != 'All'){
+                    if(approval_status == 'InActive'){
+                        query.is_approved = false;
+                    }else if(approval_status == 'Active'){
+                        query.is_approved = true;
+                    }
                 }
-                if (live_status && live_status != null && live_status != undefined) {
-                    query.is_live = live_status;
+                if(live_status != 'All'){
+                    if(live_status == 'InActive'){
+                        query.is_live = false;
+                    }else if(live_status == 'Active'){
+                        query.is_live = true;
+                    }
                 }
                 let totalOnlineOffers = parseInt(await festumeventoDB.model(constants.FE_MODELS.onlineoffers, onlineofferModel).countDocuments({}));
                 let totalApprovedOnlineOffers = parseInt(await festumeventoDB.model(constants.FE_MODELS.onlineoffers, onlineofferModel).countDocuments({ status: true, is_approved: true }));

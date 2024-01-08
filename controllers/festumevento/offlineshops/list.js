@@ -25,11 +25,19 @@ exports.withpagination = async (req, res) => {
                 if (organizerid && organizerid != '' && mongoose.Types.ObjectId.isValid(organizerid)) {
                     query.createdBy = new mongoose.Types.ObjectId(organizerid);
                 }
-                if (status && status != null && status != undefined) {
-                    query.status = status;
+                if(status != 'All'){
+                    if(status == 'InActive'){
+                        query.status = false;
+                    }else if(status == 'Active'){
+                        query.status = true;
+                    }
                 }
-                if (approval_status && approval_status != null && approval_status != undefined) {
-                    query.is_approved = approval_status;
+                if(approval_status != 'All'){
+                    if(approval_status == 'InActive'){
+                        query.is_approved = false;
+                    }else if(approval_status == 'Active'){
+                        query.is_approved = true;
+                    }
                 }
                 let totalOfflineShops = parseInt(await festumeventoDB.model(constants.FE_MODELS.shops, shopModel).countDocuments({}));
                 let totalApprovedOfflineShops = parseInt(await festumeventoDB.model(constants.FE_MODELS.shops, shopModel).countDocuments({ status: true, is_approved: true }));
