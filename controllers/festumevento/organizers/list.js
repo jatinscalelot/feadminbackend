@@ -84,3 +84,26 @@ exports.withpagination = async (req, res) => {
         return responseManager.unauthorisedRequest(res);
     }
 };
+exports.withoutpagination = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    if (req.token.superadminid && req.token.superadminid != '' && req.token.superadminid != null && mongoose.Types.ObjectId.isValid(req.token.superadminid)) {
+        let primary = mongoConnection.useDb(constants.DEFAULT_DB);
+        let admindata = await primary.model(constants.MODELS.admins, adminModel).findById(req.token.superadminid).lean();
+        if(admindata){
+            let havePermission = await config.getPermission(admindata.roleId, "organizers", "insertUpdate", "festumevento", primary);
+            if (havePermission) {
+                let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
+                let organizerList = await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).find({status : true, is_approved : true, mobileverified : true}).select("name email mobile country_code profile_pic").sort({_id : -1}).lean();
+                return responseManager.onSuccess('organizers list!', organizerList, res);
+            }else{
+                return responseManager.forbiddenRequest(res);
+            }
+        }else{
+            return responseManager.unauthorisedRequest(res);
+        }
+    } else {
+        return responseManager.unauthorisedRequest(res);
+    }
+};
+

@@ -1,0 +1,13 @@
+var express = require('express');
+var router = express.Router();
+const helper = require('../../utilities/helper');
+const listOfflineOfferCtrl = require('../../controllers/festumevento/offlineoffers/list');
+const getoneOfflineOfferCtrl = require('../../controllers/festumevento/onlineoffers/getone');
+const approvedisapproveOfflineOfferCtrl = require('../../controllers/festumevento/offlineoffers/approvedisapprove');
+const attendeesOfflineOfferCtrl = require('../../controllers/festumevento/offlineoffers/attendees');
+router.post('/', helper.authenticateToken, listOfflineOfferCtrl.withpagination);
+router.post('/getone', helper.authenticateToken, getoneOfflineOfferCtrl.getoneofflineoffer);
+router.post('/approvedisapprove', helper.authenticateToken, approvedisapproveOfflineOfferCtrl.approvedisapproveofflineoffer);
+router.post('/attendees', helper.authenticateToken, attendeesOfflineOfferCtrl.attendees);
+router.post('/exportattendees', helper.authenticateToken, attendeesOfflineOfferCtrl.exportattendees);
+module.exports = router;

@@ -42,15 +42,22 @@ const superadminpaths = [
 ];
 const festumeventopaths = [
   { pathUrl: '/agent', routeFile: 'agent' },
-  { pathUrl: '/eventdiscount', routeFile: 'eventdiscount' },
   { pathUrl: '/event', routeFile: 'event' },
+  { pathUrl: '/eventcategories', routeFile: 'eventcategories' },
   { pathUrl: '/eventcoupon', routeFile: 'eventcoupon' },
-  { pathUrl: '/eventcategory', routeFile: 'eventcategory' },
+  { pathUrl: '/eventdiscount', routeFile: 'eventdiscount' },
   { pathUrl: '/fcoin', routeFile: 'fcoin' },
   { pathUrl: '/seatingitem', routeFile: 'item' },
   { pathUrl: '/livestream', routeFile: 'livestream' },
-  { pathUrl: '/promotioncoupon', routeFile: 'promotioncoupons' },
+  { pathUrl: '/offlineshop', routeFile: 'offlineshop' },
+  { pathUrl: '/onfflineoffer', routeFile: 'onfflineoffer' },
   { pathUrl: '/onlineoffer', routeFile: 'onlineoffer' },
+  { pathUrl: '/organizer', routeFile: 'organizer' },
+  { pathUrl: '/onlineplatform', routeFile: 'platform' },
+  { pathUrl: '/promotioncoupon', routeFile: 'promotioncoupons' },
+  { pathUrl: '/globalsetting', routeFile: 'setting' },
+  { pathUrl: '/shopcategories', routeFile: 'shopcategories' },
+  { pathUrl: '/user', routeFile: 'user' },
 ];
 superadminpaths.forEach((path) => {
   app.use('/admin' + path.pathUrl, require('./routes/superadmin/' + path.routeFile));

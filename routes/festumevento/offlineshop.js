@@ -5,6 +5,7 @@ const listOfflineShopCtrl = require('../../controllers/festumevento/offlineshops
 const getoneOfflineShopCtrl = require('../../controllers/festumevento/offlineshops/getone');
 const approvedisapproveOfflineShopCtrl = require('../../controllers/festumevento/offlineshops/approvedisapprove');
 router.post('/', helper.authenticateToken, listOfflineShopCtrl.withpagination);
+router.get('/', helper.authenticateToken, listOfflineShopCtrl.withoutpagination);
 router.post('/getone', helper.authenticateToken, getoneOfflineShopCtrl.getoneofflineshop);
 router.post('/approvedisapprove', helper.authenticateToken, approvedisapproveOfflineShopCtrl.approvedisapproveofflineshop);
 module.exports = router;

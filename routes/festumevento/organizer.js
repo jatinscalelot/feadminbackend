@@ -10,6 +10,7 @@ const exportOragnizerCtrl = require('../../controllers/festumevento/organizers/e
 router.post('/savedeposite', helper.authenticateToken, saveDepositeForOragnizerCtrl.saveorganizerdeposite);
 router.post('/returndeposite', helper.authenticateToken, returnDepositeForOragnizerCtrl.returnorganizerdeposite);
 router.post('/', helper.authenticateToken, listOragnizerCtrl.withpagination);
+router.get('/', helper.authenticateToken, listOragnizerCtrl.withoutpagination);
 router.post('/approvedisapprove', helper.authenticateToken, approvedisapproveOragnizerCtrl.approvedisapproveorganizer);
 router.post('/getone', helper.authenticateToken, getoneOragnizerCtrl.getoneorganizer);
 router.post('/export', helper.authenticateToken, exportOragnizerCtrl.exportorganizer);

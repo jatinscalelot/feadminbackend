@@ -1,0 +1,10 @@
+let express = require("express");
+let router = express.Router();
+const helper = require('../../utilities/helper');
+const listUserCtrl = require('../../controllers/festumevento/users/list');
+const getoneUserCtrl = require('../../controllers/festumevento/users/getone');
+const exportUserCtrl = require('../../controllers/festumevento/users/export');
+router.post('/', helper.authenticateToken, listUserCtrl.withpagination);
+router.post('/getone', helper.authenticateToken, getoneUserCtrl.getoneuser);
+router.post('/export', helper.authenticateToken, exportUserCtrl.exportuser);
+module.exports = router;
