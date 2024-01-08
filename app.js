@@ -50,7 +50,7 @@ const festumeventopaths = [
   { pathUrl: '/seatingitem', routeFile: 'item' },
   { pathUrl: '/livestream', routeFile: 'livestream' },
   { pathUrl: '/offlineshop', routeFile: 'offlineshop' },
-  { pathUrl: '/onfflineoffer', routeFile: 'onfflineoffer' },
+  { pathUrl: '/offlineoffer', routeFile: 'offlineoffer' },
   { pathUrl: '/onlineoffer', routeFile: 'onlineoffer' },
   { pathUrl: '/organizer', routeFile: 'organizer' },
   { pathUrl: '/onlineplatform', routeFile: 'platform' },
