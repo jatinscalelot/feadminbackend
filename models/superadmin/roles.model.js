@@ -1,6 +1,10 @@
 let mongoose = require("mongoose");
 let mongoosePaginate = require("mongoose-paginate-v2");
 let permission_Schema = new mongoose.Schema({
+	displayname:{
+		type: String,
+		default: "",
+	},
 	collectionName: {
 		type: String,
 		default: "",

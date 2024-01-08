@@ -7,6 +7,16 @@ const helper = require('../../utilities/helper');
 const shopcategoryModel = require('../../models/shopcategories.model');
 const superadminModel = require('../../models/superadmins.model');
 const { default: mongoose } = require("mongoose");
+const listShopCategoryCtrl = require('../../controllers/festumevento/shopcategories/list');
+const saveShopCategoryCtrl = require('../../controllers/festumevento/shopcategories/save');
+const getoneShopCategoryCtrl = require('../../controllers/festumevento/shopcategories/getone');
+const onoffShopCategoryCtrl = require('../../controllers/festumevento/shopcategories/onoff');
+router.post('/', helper.authenticateToken, listShopCategoryCtrl.withpagination);
+router.get('/', helper.authenticateToken, listShopCategoryCtrl.withoutpagination);
+router.post('/save', helper.authenticateToken, saveShopCategoryCtrl.saveshopcategory);
+router.post('/getone', helper.authenticateToken, getoneShopCategoryCtrl.getoneshopcategory);
+router.post('/onoff', helper.authenticateToken, onoffShopCategoryCtrl.onoffshopcategory);
+
 router.post('/', helper.authenticateToken, async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     if (req.token.superadminid && mongoose.Types.ObjectId.isValid(req.token.superadminid)) {

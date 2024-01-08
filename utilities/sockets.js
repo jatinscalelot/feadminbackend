@@ -44,6 +44,12 @@ module.exports.onNewShopOffer = (channelID, reqData) => {
 module.exports.onEditShopOffer = (channelID, reqData) => {
     io.emit(channelID, { event: 'onEditShopOffer', data : reqData });
 };
+module.exports.onShopApproved = (channelID, reqData) => {
+    io.emit(channelID, { event: 'onShopApproved', data : reqData });
+};
+module.exports.onShopDisapproved = (channelID, reqData) => {
+    io.emit(channelID, { event: 'onShopDisapproved', data : reqData });
+};
 // Online offer endpoints
 module.exports.onNewOnlineOffer = (channelID, reqData) => {
     io.emit(channelID, { event: 'onNewOnlineOffer', data : reqData });
@@ -63,6 +69,12 @@ module.exports.onNewLivestream = (channelID, reqData) => {
 };
 module.exports.onEditLivestream = (channelID, reqData) => {
     io.emit(channelID, { event: 'onEditLivestream', data : reqData });
+};
+module.exports.onLivestreamDisapproved = (channelID, reqData) => {
+    io.emit(channelID, { event: 'onLivestreamDisapproved', data : reqData });
+};
+module.exports.onLivestreamApproved = (channelID, reqData) => {
+    io.emit(channelID, { event: 'onLivestreamApproved', data : reqData });
 };
 // F-Coin
 module.exports.onFCoinTransaction = (channelID, reqData) => {
