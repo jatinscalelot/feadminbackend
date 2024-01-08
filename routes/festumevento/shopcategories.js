@@ -134,7 +134,7 @@ router.post('/list', helper.authenticateToken, async (req, res) => {
 router.post('/getone', helper.authenticateToken, async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     if (req.token.superadminid && mongoose.Types.ObjectId.isValid(req.token.superadminid)) {
-        const { categoryid } = req.body;
+        const { categoryid } = req.body;  
         let primary = mongoConnection.useDb(constants.DEFAULT_DB);
         let superadmin = await primary.model(constants.MODELS.superadmins, superadminModel).findById(req.token.superadminid).lean();
         if (superadmin) {
