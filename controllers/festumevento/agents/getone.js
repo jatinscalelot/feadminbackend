@@ -17,7 +17,7 @@ exports.getoneagent = async (req, res) => {
                 const { agentid } = req.body;
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
                 if(agentid && agentid != '' && mongoose.Types.ObjectId.isValid(agentid)){
-                    let agentData = await festumeventoDB.model(constants.FE_MODELS.agents, agentModel).findById(agentid).lean();
+                    let agentData = await festumeventoDB.model(constants.FE_MODELS.agents, agentModel).findById(agentid).select("-password").lean();
                     if(agentData){
                         return responseManager.onSuccess('Agent data !', agentData, res);
                     }else{
