@@ -71,7 +71,7 @@ exports.withoutpagination = async (req, res) => {
             let havePermission = await config.getPermission(admindata.roleId, "shopcategories", "view", "festumevento", primary);
             if (havePermission) {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
-                festumeventoDB.model(constants.MODELS.shopcategories, shopcategoryModel).find({status : true}).then((categories) => {
+                festumeventoDB.model(constants.FE_MODELS.shopcategories, shopcategoryModel).find({status : true}).then((categories) => {
                     return responseManager.onSuccess('Categories list!', categories, res);
                 }).catch((error) => {
                     return responseManager.onError(error, res);
