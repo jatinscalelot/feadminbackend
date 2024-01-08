@@ -70,7 +70,7 @@ exports.withoutpagination = async (req, res) => {
             let havePermission = await config.getPermission(admindata.roleId, "notificationcoupons", "view", "festumevento", primary);
             if (havePermission) {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
-                let allActivePromotionCoupons = await festumeventoDB.model(constants.MODELS.notificationcoupons, promotioncouponModel).find({status : true}).lean();
+                let allActivePromotionCoupons = await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).find({status : true}).lean();
                 return responseManager.onSuccess('Promotion Coupons List!', allActivePromotionCoupons, res);
             } else {
                 return responseManager.forbiddenRequest(res);
