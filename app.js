@@ -40,7 +40,7 @@ const superadminpaths = [
   { pathUrl: '/profile', routeFile: 'profile' },
   { pathUrl: '/projects', routeFile: 'projects' }
 ];
-const festumeventopaths = [
+const festumeventopaths = [ 
   { pathUrl: '/agent', routeFile: 'agent' },
   { pathUrl: '/event', routeFile: 'event' },
   { pathUrl: '/eventcategories', routeFile: 'eventcategories' },

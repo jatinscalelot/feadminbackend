@@ -72,7 +72,7 @@ exports.withoutpagination = async (req, res) => {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
                 const { event_type } = req.body;
                 let query = {};
-                if (event_type != 'all') {
+                if (event_type != 'All') {
                     query.event_type = event_type;
                 }
                 let allActiveEventCategory = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).find({ status: true, ...query }).lean();
