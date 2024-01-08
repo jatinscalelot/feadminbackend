@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const helper = require('../../utilities/helper');
 const listOfflineOfferCtrl = require('../../controllers/festumevento/offlineoffers/list');
-const getoneOfflineOfferCtrl = require('../../controllers/festumevento/onlineoffers/getone');
+const getoneOfflineOfferCtrl = require('../../controllers/festumevento/offlineoffers/getone');
 const approvedisapproveOfflineOfferCtrl = require('../../controllers/festumevento/offlineoffers/approvedisapprove');
 const attendeesOfflineOfferCtrl = require('../../controllers/festumevento/offlineoffers/attendees');
 router.post('/', helper.authenticateToken, listOfflineOfferCtrl.withpagination);
