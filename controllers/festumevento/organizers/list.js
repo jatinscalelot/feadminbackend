@@ -16,7 +16,7 @@ exports.withpagination = async (req, res) => {
             let havePermission = await config.getPermission(admindata.roleId, "organizers", "insertUpdate", "festumevento", primary);
             if (havePermission) {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
-                const { page, limit, search, status, approval_status, mobile_status } = req.body;
+                const { page, limit, search, status, approval_status, mobile_status, kyc_status } = req.body;
                 let query = {};
                 if(status != 'All'){
                     if(status == 'InActive'){
@@ -37,6 +37,15 @@ exports.withpagination = async (req, res) => {
                         query.mobileverified = false;
                     }else if(mobile_status == 'Active'){
                         query.mobileverified = true;
+                    }
+                }
+                if(kyc_status != 'All'){
+                    if(kyc_status == 'approved'){
+                        query['kyc_details.status'] = 'approved';
+                    }else if(kyc_status == 'rejected'){
+                        query['kyc_details.status'] = 'rejected';
+                    }else if(kyc_status == 'pending'){
+                        query['kyc_details.status'] = 'pending';
                     }
                 }
                 let totalOrganizers = parseInt(await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).countDocuments({}));

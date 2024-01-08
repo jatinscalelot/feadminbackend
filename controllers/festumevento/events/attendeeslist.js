@@ -28,6 +28,7 @@ exports.withpagination = async (req, res) => {
                 if (eventid && eventid != '' && mongoose.Types.ObjectId.isValid(eventid)) {
                     let eventData = await festumeventoDB.model(constants.FE_MODELS.events, eventModel).findById(eventid).lean();
                     if(eventData && eventData.is_approved == true && eventData.status == true && eventData.iseditable == false){
+                        let totalAttendance = parseInt(await festumeventoDB.model(constants.FE_MODELS.eventbookings, eventbookingModel).countDocuments({event_id: new mongoose.Types.ObjectId(eventid), isQRscanned: true}));
                         festumeventoDB.model(constants.FE_MODELS.eventbookings, eventbookingModel).paginate({
                             event_id: new mongoose.Types.ObjectId(eventid),
                             isQRscanned: true
