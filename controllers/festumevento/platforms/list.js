@@ -74,7 +74,7 @@ exports.withoutpagination = async (req, res) => {
             let havePermission = await config.getPermission(admindata.roleId, "platforms", "view", "festumevento", primary);
             if (havePermission) {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
-                let allPlatforms = festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).find({status : true}).lean();
+                let allPlatforms = await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).find({status : true}).lean();
                 return responseManager.onSuccess('Platforms list!', allPlatforms, res);
             }else{
                 return responseManager.forbiddenRequest(res);
