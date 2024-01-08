@@ -33,8 +33,8 @@ exports.approvdisapproveevent = async (req, res) => {
                                     title: 'Event Disapproved',
                                     message: 'Oops ! ' + organiserData.name + ' Your event ' + eventData.name + ' is Disapproved from Festum Evento Admin, Please correct your event data and try again...',
                                     banner: eventData.banner,
-                                    organiserid: mongoose.Types.ObjectId(organiserData._id),
-                                    entityid: mongoose.Types.ObjectId(eventData._id),
+                                    organiserid: new mongoose.Types.ObjectId(organiserData._id),
+                                    entityid: new mongoose.Types.ObjectId(eventData._id),
                                     type: 'event',
                                     timestamp: Date.now()
                                 };
@@ -67,8 +67,8 @@ exports.approvdisapproveevent = async (req, res) => {
                                     title: 'Event Approved',
                                     message: 'Congratulations ! ' + organiserData.name + ' Your event ' + eventData.name + ' is Approved successfully...',
                                     banner: eventData.banner,
-                                    organiserid: mongoose.Types.ObjectId(organiserData._id),
-                                    entityid: mongoose.Types.ObjectId(eventData._id),
+                                    organiserid: new mongoose.Types.ObjectId(organiserData._id),
+                                    entityid: new mongoose.Types.ObjectId(eventData._id),
                                     type: 'event',
                                     timestamp: Date.now()
                                 };

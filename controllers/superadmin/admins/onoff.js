@@ -18,11 +18,11 @@ exports.activeinactiveadmin = async (req, res) => {
                     let existingAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).lean();
                     if(existingAdmin){
                         if(existingAdmin.status == true){
-                            await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(saadminid, {status : false, updatedBy: mongoose.Types.ObjectId(admindata._id)});
+                            await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(saadminid, {status : false, updatedBy: new mongoose.Types.ObjectId(admindata._id)});
                             let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();
                             return responseManager.onSuccess('Admin status updated successfully!', updatedAdmin, res);
                         }else{
-                            await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(saadminid, {status : true, updatedBy: mongoose.Types.ObjectId(admindata._id)});
+                            await primary.model(constants.MODELS.admins, adminModel).findByIdAndUpdate(saadminid, {status : true, updatedBy: new mongoose.Types.ObjectId(admindata._id)});
                             let updatedAdmin = await primary.model(constants.MODELS.admins, adminModel).findById(saadminid).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();
                             return responseManager.onSuccess('Admin status updated successfully!', updatedAdmin, res);
                         }

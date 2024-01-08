@@ -18,11 +18,11 @@ exports.onoffdepositemoduleonglobalsetting = async (req, res) => {
                 let defaultSetting = await festumeventoDB.model(constants.FE_MODELS.settings, settingModel).find({}).lean();
                 if (defaultSetting && defaultSetting.length > 0) {
                     if (defaultSetting[0].deposite == true) {
-                        await festumeventoDB.model(constants.FE_MODELS.settings, settingModel).findByIdAndUpdate(defaultSetting[0]._id, { deposite: false, updatedBy: mongoose.Types.ObjectId(admindata._id) });
+                        await festumeventoDB.model(constants.FE_MODELS.settings, settingModel).findByIdAndUpdate(defaultSetting[0]._id, { deposite: false, updatedBy: new mongoose.Types.ObjectId(admindata._id) });
                         let settingdata = await festumeventoDB.model(constants.FE_MODELS.settings, settingModel).findById(defaultSetting[0]._id).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();
                         return responseManager.onSuccess('setting data updated successfully!', settingdata, res);
                     } else {
-                        await festumeventoDB.model(constants.FE_MODELS.settings, settingModel).findByIdAndUpdate(defaultSetting[0]._id, { deposite: true, updatedBy: mongoose.Types.ObjectId(admindata._id) });
+                        await festumeventoDB.model(constants.FE_MODELS.settings, settingModel).findByIdAndUpdate(defaultSetting[0]._id, { deposite: true, updatedBy: new mongoose.Types.ObjectId(admindata._id) });
                         let settingdata = await festumeventoDB.model(constants.FE_MODELS.settings, settingModel).findById(defaultSetting[0]._id).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();
                         return responseManager.onSuccess('setting data updated successfully!', settingdata, res);
                     }

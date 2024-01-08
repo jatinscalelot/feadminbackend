@@ -20,14 +20,14 @@ exports.onoffeventcoupon = async (req, res) => {
                     let eventbookingcouponData = await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).findById(eventbookingcouponid).lean();
                     if(eventbookingcouponData){
                         if(eventbookingcouponData.status && eventbookingcouponData.status == true){
-                            await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).findByIdAndUpdate(eventbookingcouponid, {status : false, updatedBy : mongoose.Types.ObjectId(req.token.superadminid)});
+                            await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).findByIdAndUpdate(eventbookingcouponid, {status : false, updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)});
                             let updatedEventbookingcoupon = await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).findById(eventbookingcouponid).populate([
                                 { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
                                 { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
                             ]).lean();
                             return responseManager.onSuccess('Event booking coupon status updated successfully!', updatedEventbookingcoupon, res);
                         }else{
-                            await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).findByIdAndUpdate(eventbookingcouponid, {status : true, updatedBy : mongoose.Types.ObjectId(req.token.superadminid)});
+                            await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).findByIdAndUpdate(eventbookingcouponid, {status : true, updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)});
                             let updatedEventbookingcoupon = await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).findById(eventbookingcouponid).populate([
                                 { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
                                 { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }

@@ -24,14 +24,14 @@ exports.onoffplatform = async (req, res) => {
                     let existingplatformData = await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findById(platformid).lean();
                     if(existingplatformData && existingplatformData != null){
                         if(existingplatformData.status == true){
-                            await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findByIdAndUpdate(platformid, {status : false, updatedBy : mongoose.Types.ObjectId(req.token.superadminid)});
+                            await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findByIdAndUpdate(platformid, {status : false, updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)});
                             let updatedPlatform = await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findById(platformid).populate([
                                 { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
                                 { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
                             ]).lean();
                             return responseManager.onSuccess('Platform status updated successfully!', updatedPlatform, res);
                         }else{
-                            await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findByIdAndUpdate(platformid, {status : true, updatedBy : mongoose.Types.ObjectId(req.token.superadminid)});
+                            await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findByIdAndUpdate(platformid, {status : true, updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)});
                             let updatedPlatform = await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findById(platformid).populate([
                                 { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
                                 { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }

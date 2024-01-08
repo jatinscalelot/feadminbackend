@@ -63,9 +63,9 @@ exports.getoneevent = async (req, res) => {
                                 eventData.total_available_seats = noofunsold;
                                 eventData.total_booked_seats = noofsold;
                                 eventData.total_seats = totalseat;
-                                let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.eventreviews, eventreviewModel).countDocuments({ eventid: mongoose.Types.ObjectId(eventData._id) }));
+                                let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.eventreviews, eventreviewModel).countDocuments({ eventid: new mongoose.Types.ObjectId(eventData._id) }));
                                 if (noofreview > 0) {
-                                    let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.eventreviews, eventreviewModel).aggregate([{ $match: { eventid: mongoose.Types.ObjectId(eventData._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
+                                    let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.eventreviews, eventreviewModel).aggregate([{ $match: { eventid: new mongoose.Types.ObjectId(eventData._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
                                     if (totalReviewsCountObj && totalReviewsCountObj.length > 0 && totalReviewsCountObj[0].sum) {
                                         eventData.ratings = parseFloat(parseFloat(totalReviewsCountObj[0].sum) / parseInt(noofreview)).toFixed(1);
                                         eventData.totalreview = parseInt(noofreview);
@@ -74,9 +74,9 @@ exports.getoneevent = async (req, res) => {
                                     eventData.ratings = '0.0';
                                     eventData.totalreview = parseInt(0);
                                 }
-                                let allreview = await festumeventoDB.model(constants.FE_MODELS.eventreviews, eventreviewModel).find({ eventid: mongoose.Types.ObjectId(eventid) }).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name mobile profilepic createdAt timestamp" }).lean();
+                                let allreview = await festumeventoDB.model(constants.FE_MODELS.eventreviews, eventreviewModel).find({ eventid: new mongoose.Types.ObjectId(eventid) }).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name mobile profilepic createdAt timestamp" }).lean();
                                 eventData.reviews = allreview;
-                                let allbooked = await festumeventoDB.model(constants.FE_MODELS.eventbookings, eventbookingModel).find({ event_id: mongoose.Types.ObjectId(eventid) }).select('amount').lean();
+                                let allbooked = await festumeventoDB.model(constants.FE_MODELS.eventbookings, eventbookingModel).find({ event_id: new mongoose.Types.ObjectId(eventid) }).select('amount').lean();
                                 if (allbooked && allbooked.length > 0) {
                                     let booked_amount = parseFloat(0.00);
                                     async.forEachSeries(allbooked, (book, next_book) => {

@@ -20,7 +20,7 @@ exports.returnorganizerdeposite = async (req, res) => {
                 if (organizerid && organizerid != '' && mongoose.Types.ObjectId.isValid(organizerid)) {
                     let organizerData = await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findById(organizerid).lean();
                     if (organizerData && organizerData != null && organizerData.mobileverified == true) {
-                        await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, {isdepositereceived : false, deposite : {}, updatedBy : mongoose.Types.ObjectId(admindata._id)});
+                        await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, {isdepositereceived : false, deposite : {}, updatedBy : new mongoose.Types.ObjectId(admindata._id)});
                         let organizerDataFinal = await primary.model(constants.MODELS.organizers, organizerModel).findById(organizerid).populate([
                             {path: 'agentid', model: festumeventoDB.model(constants.FE_MODELS.agents, agentModel), select: 'name email mobile country_code'},
                             { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 

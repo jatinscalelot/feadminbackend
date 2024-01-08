@@ -50,8 +50,8 @@ exports.approvedisapprovelivestream = async (req, res) => {
                                                     title: 'Livestream Disapproved',
                                                     message: 'Oops ! ' + organiserData.name + ' Your Livestream ' + updatedData.event_name + ' is Disapproved from Festum Evento Admin, Please correct your shop data and try again...',
                                                     banner: updatedData.banner,
-                                                    organiserid: mongoose.Types.ObjectId(organiserData._id),
-                                                    entityid: mongoose.Types.ObjectId(updatedData._id),
+                                                    organiserid: new mongoose.Types.ObjectId(organiserData._id),
+                                                    entityid: new mongoose.Types.ObjectId(updatedData._id),
                                                     type: 'livestream',
                                                     timestamp: Date.now()
                                                 };
@@ -90,8 +90,8 @@ exports.approvedisapprovelivestream = async (req, res) => {
                                         title: 'Livestream Disapproved',
                                         message: 'Oops ! ' + organiserData.name + ' Your Livestream ' + updatedData.event_name + ' is Disapproved from Festum Evento Admin, Please correct your shop data and try again...',
                                         banner: updatedData.banner,
-                                        organiserid: mongoose.Types.ObjectId(organiserData._id),
-                                        entityid: mongoose.Types.ObjectId(updatedData._id),
+                                        organiserid: new mongoose.Types.ObjectId(organiserData._id),
+                                        entityid: new mongoose.Types.ObjectId(updatedData._id),
                                         type: 'livestream',
                                         timestamp: Date.now()
                                     };
@@ -147,8 +147,8 @@ exports.approvedisapprovelivestream = async (req, res) => {
                                             title: 'Livestream Approved',
                                             message: 'Congratulations ! ' + organiserData.name + ' Your Livestream ' + updatedData.event_name + ' is Approved from Festum Evento Admin...',
                                             banner: updatedData.banner,
-                                            organiserid: mongoose.Types.ObjectId(organiserData._id),
-                                            entityid: mongoose.Types.ObjectId(updatedData._id),
+                                            organiserid: new mongoose.Types.ObjectId(organiserData._id),
+                                            entityid: new mongoose.Types.ObjectId(updatedData._id),
                                             type: 'livestream',
                                             timestamp: Date.now()
                                         };

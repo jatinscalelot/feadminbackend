@@ -36,7 +36,7 @@ exports.saveeventcoupon = async (req, res) => {
                                             expiry_date: expiry_date,
                                             expiry_time: expiry_time,
                                             expiry_timestamp: timestamp,
-                                            updatedBy: mongoose.Types.ObjectId(req.token.superadminid)
+                                            updatedBy: new mongoose.Types.ObjectId(req.token.superadminid)
                                         };
                                         await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).findByIdAndUpdate(eventbookingcouponid, obj);
                                         let updatedData = await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).findById(eventbookingcouponid).populate([
@@ -65,8 +65,8 @@ exports.saveeventcoupon = async (req, res) => {
                                             expiry_timestamp: timestamp,
                                             status: status,
                                             total_used: 0,
-                                            createdBy: mongoose.Types.ObjectId(req.token.superadminid),
-                                            updatedBy: mongoose.Types.ObjectId(req.token.superadminid)
+                                            createdBy: new mongoose.Types.ObjectId(req.token.superadminid),
+                                            updatedBy: new mongoose.Types.ObjectId(req.token.superadminid)
                                         };
                                         let insertedData = await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).create(obj);
                                         let newinsertedData = await festumeventoDB.model(constants.FE_MODELS.eventbookingcoupons, eventbookingcouponModel).findById(insertedData._id).populate([

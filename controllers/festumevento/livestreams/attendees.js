@@ -28,7 +28,7 @@ exports.attendees = async (req, res) => {
                     let livestreamData = await festumeventoDB.model(constants.FE_MODELS.livestreams, livestreamModel).findById(livestreamid).lean();
                     if (livestreamData && livestreamData != null) {
                         festumeventoDB.model(constants.FE_MODELS.livestreamviews, livestreamviewerModel).paginate({
-                            livestreamid: mongoose.Types.ObjectId(livestreamid)
+                            livestreamid: new mongoose.Types.ObjectId(livestreamid)
                         }, {
                             page,
                             limit: parseInt(limit),
@@ -71,7 +71,7 @@ exports.export = async (req, res) => {
                     let livestreamData = await festumeventoDB.model(constants.FE_MODELS.livestreams, livestreamModel).findById(livestreamid).lean();
                     if (livestreamData && livestreamData != null) {
                         let attendeelist = await festumeventoDB.model(constants.FE_MODELS.livestreamviews, livestreamviewerModel).find({
-                            livestreamid: mongoose.Types.ObjectId(livestreamid)
+                            livestreamid: new mongoose.Types.ObjectId(livestreamid)
                         }).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name email mobile country_code profilepic" }).lean();
                         var ext = 'xlsx';
                         var date = new Date();

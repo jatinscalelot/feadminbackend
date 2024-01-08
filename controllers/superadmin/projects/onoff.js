@@ -20,11 +20,11 @@ exports.activeinactiveproject = async (req, res) => {
                     let existingProject = await primary.model(constants.MODELS.projects, projectModel).findById(projectid).lean();
                     if (existingProject) {
                         if (existingProject.status == true) {
-                            await primary.model(constants.MODELS.projects, projectModel).findByIdAndUpdate(projectid, { status: false, updatedBy: mongoose.Types.ObjectId(admindata._id) });
+                            await primary.model(constants.MODELS.projects, projectModel).findByIdAndUpdate(projectid, { status: false, updatedBy: new mongoose.Types.ObjectId(admindata._id) });
                             let updatedProject = await primary.model(constants.MODELS.projects, projectModel).findById(projectid).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                             return responseManager.onSuccess('Project status updated successfully!', updatedProject, res);
                         } else {
-                            await primary.model(constants.MODELS.projects, projectModel).findByIdAndUpdate(projectid, { status: true, updatedBy: mongoose.Types.ObjectId(admindata._id) });
+                            await primary.model(constants.MODELS.projects, projectModel).findByIdAndUpdate(projectid, { status: true, updatedBy: new mongoose.Types.ObjectId(admindata._id) });
                             let updatedProject = await primary.model(constants.MODELS.projects, projectModel).findById(projectid).populate([{ path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                             return responseManager.onSuccess('Project status updated successfully!', updatedProject, res);
                         }

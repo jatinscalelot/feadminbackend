@@ -28,7 +28,7 @@ exports.exportattendees = async (req, res) => {
                 if (eventid && eventid != '' && mongoose.Types.ObjectId.isValid(eventid)) {
                     let eventData = await festumeventoDB.model(constants.FE_MODELS.events, eventModel).findById(eventid).lean();
                     if (eventData && eventData.is_approved == true && eventData.status == true && eventData.iseditable == false) {
-                        let attendeelist = await festumeventoDB.model(constants.FE_MODELS.eventbookings, eventbookingModel).find({ event_id: mongoose.Types.ObjectId(eventid), isQRscanned: true }).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name email mobile" }).lean();
+                        let attendeelist = await festumeventoDB.model(constants.FE_MODELS.eventbookings, eventbookingModel).find({ event_id: new mongoose.Types.ObjectId(eventid), isQRscanned: true }).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name email mobile" }).lean();
                         var ext = 'xlsx';
                         var date = new Date();
                         var timestamp = date.getTime().toString();

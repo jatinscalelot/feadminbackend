@@ -36,7 +36,7 @@ exports.saveplatform = async (req, res) => {
                                                             name : name,
                                                             platformimage : result.data.Key,
                                                             description : description,
-                                                            updatedBy : mongoose.Types.ObjectId(req.token.superadminid)
+                                                            updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)
                                                         };
                                                         await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findByIdAndUpdate(platformid, obj);
                                                         let updatedData = await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findById(platformid).populate([
@@ -59,7 +59,7 @@ exports.saveplatform = async (req, res) => {
                                     let obj = {
                                         name : name,
                                         description : description,
-                                        updatedBy : mongoose.Types.ObjectId(req.token.superadminid)
+                                        updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)
                                     };
                                     await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findByIdAndUpdate(platformid, obj);
                                     let updatedData = await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findById(platformid).populate([
@@ -87,8 +87,8 @@ exports.saveplatform = async (req, res) => {
                                                             description : description,
                                                             status : true,
                                                             owner : 'superadmin',
-                                                            createdBy : mongoose.Types.ObjectId(req.token.superadminid),
-                                                            updatedBy : mongoose.Types.ObjectId(req.token.superadminid)
+                                                            createdBy : new mongoose.Types.ObjectId(req.token.superadminid),
+                                                            updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)
                                                         };
                                                        let newObject = await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).create(obj);
                                                         let newcreatedData = await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findById(newObject._id).populate([

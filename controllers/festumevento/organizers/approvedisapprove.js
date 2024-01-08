@@ -21,11 +21,11 @@ exports.approvedisapproveorganizer = async (req, res) => {
                     let organizerData = await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findById(organizerid).lean();
                     if (organizerData && organizerData != null && organizerData.mobileverified == true) {
                         if(organizerData.status == true && organizerData.is_approved == true){
-                            await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, { is_approved : false, updatedBy : mongoose.Types.ObjectId(admindata._id) });
+                            await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, { is_approved : false, updatedBy : new mongoose.Types.ObjectId(admindata._id) });
                             let updatedData = await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findById(organizerid).populate([{path: 'agentid', model: festumeventoDB.model(constants.FE_MODELS.agents, agentModel), select: 'name email mobile country_code'}, { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                             return responseManager.onSuccess('Organizer data dis-approved successfully !', updatedData, res);
                         }else{
-                            await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, { is_approved : true, status: true, updatedBy : mongoose.Types.ObjectId(admindata._id) });
+                            await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, { is_approved : true, status: true, updatedBy : new mongoose.Types.ObjectId(admindata._id) });
                             let updatedData = await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findById(organizerid).populate([{path: 'agentid', model: festumeventoDB.model(constants.FE_MODELS.agents, agentModel), select: 'name email mobile country_code'}, { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
                             return responseManager.onSuccess('Organizer data approved successfully !', updatedData, res);
                         }

@@ -20,14 +20,14 @@ exports.onoffeventcategory = async (req, res) => {
                     let eventcategoryData = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findById(categoryid).lean();
                     if(eventcategoryData){
                         if(eventcategoryData.status && eventcategoryData.status == true){
-                            await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findByIdAndUpdate(categoryid, {status : false, updatedBy : mongoose.Types.ObjectId(req.token.superadminid)});
+                            await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findByIdAndUpdate(categoryid, {status : false, updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)});
                             let updatedEventcategory = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findById(categoryid).populate([
                                 { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
                                 { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
                             ]).lean();
                             return responseManager.onSuccess('Event category status updated successfully!', updatedEventcategory, res);
                         }else{
-                            await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findByIdAndUpdate(categoryid, {status : true, updatedBy : mongoose.Types.ObjectId(req.token.superadminid)});
+                            await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findByIdAndUpdate(categoryid, {status : true, updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)});
                             let updatedEventcategory = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findById(categoryid).populate([
                                 { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
                                 { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }

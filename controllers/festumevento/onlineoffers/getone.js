@@ -37,9 +37,9 @@ exports.getoneonlineoffer = async (req, res) => {
                         select: '-password -refer_code -createdBy -updatedBy -agentid -otpVerifyKey -createdAt -updatedAt -__v -last_login_at -f_coins -isdepositereceived -deposite'
                     }]).lean();
                     if (onlineOfferData) {
-                        let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.onlineofferreviews, onlineofferreviewModel).countDocuments({ offerid: mongoose.Types.ObjectId(onlineOfferData._id) }));
+                        let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.onlineofferreviews, onlineofferreviewModel).countDocuments({ offerid: new mongoose.Types.ObjectId(onlineOfferData._id) }));
                         if (noofreview > 0) {
-                            let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.onlineofferreviews, onlineofferreviewModel).aggregate([{ $match: { offerid: mongoose.Types.ObjectId(onlineOfferData._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
+                            let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.onlineofferreviews, onlineofferreviewModel).aggregate([{ $match: { offerid: new mongoose.Types.ObjectId(onlineOfferData._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
                             if (totalReviewsCountObj && totalReviewsCountObj.length > 0 && totalReviewsCountObj[0].sum) {
                                 onlineOfferData.ratings = parseFloat(parseFloat(totalReviewsCountObj[0].sum) / noofreview).toFixed(1);
                                 onlineOfferData.totalreviews = noofreview;
@@ -48,7 +48,7 @@ exports.getoneonlineoffer = async (req, res) => {
                             onlineOfferData.ratings = '0.0';
                             onlineOfferData.totalreviews = 0;
                         }
-                        let allreview = await festumeventoDB.model(constants.FE_MODELS.onlineofferreviews, onlineofferreviewModel).find({ offerid: mongoose.Types.ObjectId(onlineOfferData._id) }).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name mobile profilepic" }).lean();
+                        let allreview = await festumeventoDB.model(constants.FE_MODELS.onlineofferreviews, onlineofferreviewModel).find({ offerid: new mongoose.Types.ObjectId(onlineOfferData._id) }).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name mobile profilepic" }).lean();
                         onlineOfferData.offerreviews = allreview;
                         return responseManager.onSuccess("Online Offer Data", onlineOfferData, res);
                     } else {

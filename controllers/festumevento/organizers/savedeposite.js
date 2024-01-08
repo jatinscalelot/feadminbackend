@@ -33,7 +33,7 @@ exports.saveorganizerdeposite = async (req, res) => {
                                             transactionid : transactionid,
                                             currenttime : Date.now()
                                         };
-                                        await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, {isdepositereceived : true, deposite : obj, updatedBy : mongoose.Types.ObjectId(admindata._id)});
+                                        await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, {isdepositereceived : true, deposite : obj, updatedBy : new mongoose.Types.ObjectId(admindata._id)});
                                         let organizerDataFinal = await primary.model(constants.MODELS.organizers, organizerModel).findById(organizerid).populate([
                                             {path: 'agentid', model: festumeventoDB.model(constants.FE_MODELS.agents, agentModel), select: 'name email mobile country_code'},
                                             { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 

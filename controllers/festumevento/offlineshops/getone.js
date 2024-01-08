@@ -28,10 +28,10 @@ exports.getoneofflineshop = async (req, res) => {
                     ]).lean();
                     if (shopData && shopData != null) {
                         let rightnow = Date.now();
-                        let totalrunningoffer = parseInt(await festumeventoDB.model(constants.FE_MODELS.offlineoffers, offlineofferModel).countDocuments({ shopid: mongoose.Types.ObjectId(shopData._id), end_timestamp: { "$gte": rightnow } }));
-                        let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.shopreviews, shopreviewModel).countDocuments({ shopid: mongoose.Types.ObjectId(shopData._id) }));
+                        let totalrunningoffer = parseInt(await festumeventoDB.model(constants.FE_MODELS.offlineoffers, offlineofferModel).countDocuments({ shopid: new mongoose.Types.ObjectId(shopData._id), end_timestamp: { "$gte": rightnow } }));
+                        let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.shopreviews, shopreviewModel).countDocuments({ shopid: new mongoose.Types.ObjectId(shopData._id) }));
                         if (noofreview > 0) {
-                            let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.shopreviews, shopreviewModel).aggregate([{ $match: { shopid: mongoose.Types.ObjectId(shopData._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
+                            let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.shopreviews, shopreviewModel).aggregate([{ $match: { shopid: new mongoose.Types.ObjectId(shopData._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
                             if (totalReviewsCountObj && totalReviewsCountObj.length > 0 && totalReviewsCountObj[0].sum) {
                                 shopData.ratings = parseFloat(parseFloat(totalReviewsCountObj[0].sum) / noofreview).toFixed(1);
                                 shopData.totalreviews = noofreview;
@@ -42,7 +42,7 @@ exports.getoneofflineshop = async (req, res) => {
                             shopData.totalreviews = 0;
                             shopData.total_running_offers = (parseInt(totalrunningoffer) > 0) ? parseInt(totalrunningoffer) : 0;
                         }
-                        let allreviews = await festumeventoDB.model(constants.FE_MODELS.shopreviews, shopreviewModel).find({ shopid: mongoose.Types.ObjectId(shopData._id) }).populate([{ path: 'offerid', model: festumeventoDB.model(constants.FE_MODELS.offlineoffers, offlineofferModel), select: 'offer_title start_date end_date poster' }, { path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: 'name email country_code mobile profilepic' }]).lean();
+                        let allreviews = await festumeventoDB.model(constants.FE_MODELS.shopreviews, shopreviewModel).find({ shopid: new mongoose.Types.ObjectId(shopData._id) }).populate([{ path: 'offerid', model: festumeventoDB.model(constants.FE_MODELS.offlineoffers, offlineofferModel), select: 'offer_title start_date end_date poster' }, { path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: 'name email country_code mobile profilepic' }]).lean();
                         shopData.reviews = allreviews;
                         return responseManager.onSuccess('Shop data!', shopData, res);
                     } else {

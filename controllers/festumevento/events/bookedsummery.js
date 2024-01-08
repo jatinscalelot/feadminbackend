@@ -28,7 +28,7 @@ exports.withoutpagination = async (req, res) => {
                 if (eventid && eventid != '' && mongoose.Types.ObjectId.isValid(eventid)) {
                     let eventData = await festumeventoDB.model(constants.FE_MODELS.events, eventModel).findById(eventid).lean();
                     if(eventData && eventData.is_approved == true && eventData.status == true && eventData.iseditable == false){
-                        let bookingData = await festumeventoDB.model(constants.FE_MODELS.eventbookings, eventbookingModel).find({event_id: mongoose.Types.ObjectId(eventid)}).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name email mobile profilepic" }).sort({_id: -1}) .lean();
+                        let bookingData = await festumeventoDB.model(constants.FE_MODELS.eventbookings, eventbookingModel).find({event_id: new mongoose.Types.ObjectId(eventid)}).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name email mobile profilepic" }).sort({_id: -1}) .lean();
                         let finalData = [];
                         async.forEachSeries(bookingData, (attendee, next_attendee) => {
                             let booked_tickets = 0;

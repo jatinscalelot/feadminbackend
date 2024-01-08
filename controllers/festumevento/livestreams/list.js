@@ -22,10 +22,10 @@ exports.withpagination = async (req, res) => {
                 const { organizerid, event_category, page, limit, search, status, approval_status, live_status, paid_free } = req.body;
                 let query = {};
                 if (organizerid && organizerid != '' && mongoose.Types.ObjectId.isValid(organizerid)) {
-                    query.createdBy = mongoose.Types.ObjectId(organizerid);
+                    query.createdBy = new mongoose.Types.ObjectId(organizerid);
                 }
                 if (event_category && event_category != '' && mongoose.Types.ObjectId.isValid(event_category)) {
-                    query.event_category = mongoose.Types.ObjectId(event_category);
+                    query.event_category = new mongoose.Types.ObjectId(event_category);
                 }
                 if (status && status != null && status != undefined) {
                     query.status = status;
@@ -66,9 +66,9 @@ exports.withpagination = async (req, res) => {
                     let alllivestreame = [];
                     async.forEachSeries(livestreames.docs, (livestreame, next_livestreame) => {
                         ( async () => {
-                            let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).countDocuments({ livestreamid: mongoose.Types.ObjectId(livestreame._id) }));
+                            let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).countDocuments({ livestreamid: new mongoose.Types.ObjectId(livestreame._id) }));
                             if (noofreview > 0) {
-                                let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).aggregate([{ $match: { livestreamid: mongoose.Types.ObjectId(livestreame._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
+                                let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).aggregate([{ $match: { livestreamid: new mongoose.Types.ObjectId(livestreame._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
                                 if (totalReviewsCountObj && totalReviewsCountObj.length > 0 && totalReviewsCountObj[0].sum) {
                                     livestreame.ratings = parseFloat(parseFloat(totalReviewsCountObj[0].sum) / parseInt(noofreview)).toFixed(1);
                                     livestreame.totalreview = parseInt(noofreview);

@@ -20,11 +20,11 @@ exports.onoffpromotioncoupon = async (req, res) => {
                     let existingPromotionCoupon = await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).findById(promotioncouponid).lean();
                     if(existingPromotionCoupon){
                         if(existingPromotionCoupon.status == true){
-                            await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).findByIdAndUpdate(promotioncouponid, {status : false, updatedBy: mongoose.Types.ObjectId(admindata._id)});
+                            await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).findByIdAndUpdate(promotioncouponid, {status : false, updatedBy: new mongoose.Types.ObjectId(admindata._id)});
                             let updatedPromotionCoupon = await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).findById(promotioncouponid).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();
                             return responseManager.onSuccess('Promotion Coupon status updated successfully!', updatedPromotionCoupon, res);
                         }else{
-                            await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).findByIdAndUpdate(promotioncouponid, {status : true, updatedBy: mongoose.Types.ObjectId(admindata._id)});
+                            await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).findByIdAndUpdate(promotioncouponid, {status : true, updatedBy: new mongoose.Types.ObjectId(admindata._id)});
                             let updatedPromotionCoupon = await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).findById(promotioncouponid).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();
                             return responseManager.onSuccess('Promotion Coupon status updated successfully!', updatedPromotionCoupon, res);
                         }

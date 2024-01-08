@@ -31,8 +31,8 @@ exports.approvedisapproveonlineoffer = async (req, res) => {
                                     title: 'Online Offer Disapproved',
                                     message: 'Oops ! ' + organiserData.name + ' Your Online Offer ' + onlineofferData.shop_name + ' is Disapproved from Festum Evento Admin, Please correct your event data and try again...',
                                     banner: onlineofferData.poster,
-                                    organiserid: mongoose.Types.ObjectId(organiserData._id),
-                                    entityid: mongoose.Types.ObjectId(onlineofferData._id),
+                                    organiserid: new mongoose.Types.ObjectId(organiserData._id),
+                                    entityid: new mongoose.Types.ObjectId(onlineofferData._id),
                                     type: 'onlineoffer',
                                     timestamp: Date.now()
                                 };
@@ -65,8 +65,8 @@ exports.approvedisapproveonlineoffer = async (req, res) => {
                                     title: 'Online Offer Approved',
                                     message: 'Congratulations ! ' + organiserData.name + ' Your Online Offer ' + onlineofferData.shop_name + ' is Approved from Festum Evento Admin...',
                                     banner: onlineofferData.poster,
-                                    organiserid: mongoose.Types.ObjectId(organiserData._id),
-                                    entityid: mongoose.Types.ObjectId(onlineofferData._id),
+                                    organiserid: new mongoose.Types.ObjectId(organiserData._id),
+                                    entityid: new mongoose.Types.ObjectId(onlineofferData._id),
                                     type: 'onlineoffer',
                                     timestamp: Date.now()
                                 };

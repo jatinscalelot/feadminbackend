@@ -26,7 +26,7 @@ exports.saveeventcategory = async (req, res) => {
                                         categoryname: categoryname,
                                         description: description,
                                         event_type: event_type,
-                                        updatedBy: mongoose.Types.ObjectId(req.token.superadminid)
+                                        updatedBy: new mongoose.Types.ObjectId(req.token.superadminid)
                                     };
                                     await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findByIdAndUpdate(categoryid, obj);
                                     let updatedData = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findById(categoryid).populate([
@@ -45,8 +45,8 @@ exports.saveeventcategory = async (req, res) => {
                                         description: description,
                                         event_type: event_type,
                                         status: true,
-                                        createdBy: mongoose.Types.ObjectId(req.token.superadminid),
-                                        updatedBy: mongoose.Types.ObjectId(req.token.superadminid)
+                                        createdBy: new mongoose.Types.ObjectId(req.token.superadminid),
+                                        updatedBy: new mongoose.Types.ObjectId(req.token.superadminid)
                                     };
                                     let insertedData = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).create(obj);
                                     let newinsertedData = await festumeventoDB.model(constants.FE_MODELS.eventcategories, eventcategoryModel).findById(insertedData._id).populate([

@@ -29,7 +29,7 @@ exports.withpagination = async (req, res) => {
                     let eventData = await festumeventoDB.model(constants.FE_MODELS.events, eventModel).findById(eventid).lean();
                     if(eventData && eventData.is_approved == true && eventData.status == true && eventData.iseditable == false){
                         festumeventoDB.model(constants.FE_MODELS.eventbookings, eventbookingModel).paginate({
-                            event_id: mongoose.Types.ObjectId(eventid),
+                            event_id: new mongoose.Types.ObjectId(eventid),
                             isQRscanned: true
                         }, {
                             page,

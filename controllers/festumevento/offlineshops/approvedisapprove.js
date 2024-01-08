@@ -33,8 +33,8 @@ exports.approvedisapproveofflineshop = async (req, res) => {
                                     title: 'Offline Shop Disapproved',
                                     message: 'Oops ! ' + organiserData.name + ' Your Shop ' + updatedOfflineShopData.shop_name + ' is Disapproved from Festum Evento Admin, Please correct your shop data and try again...',
                                     banner: updatedOfflineShopData.banner,
-                                    organiserid: mongoose.Types.ObjectId(organiserData._id),
-                                    entityid: mongoose.Types.ObjectId(updatedOfflineShopData._id),
+                                    organiserid: new mongoose.Types.ObjectId(organiserData._id),
+                                    entityid: new mongoose.Types.ObjectId(updatedOfflineShopData._id),
                                     type: 'shop',
                                     timestamp: Date.now()
                                 };
@@ -67,8 +67,8 @@ exports.approvedisapproveofflineshop = async (req, res) => {
                                     title: 'Offline Shop Approved',
                                     message: 'Congratulations ! ' + organiserData.name + ' Your Shop ' + updatedOfflineShopData.shop_name + ' is Approved successfully...',
                                     banner: updatedOfflineShopData.banner,
-                                    organiserid: mongoose.Types.ObjectId(organiserData._id),
-                                    entityid: mongoose.Types.ObjectId(updatedOfflineShopData._id),
+                                    organiserid: new mongoose.Types.ObjectId(organiserData._id),
+                                    entityid: new mongoose.Types.ObjectId(updatedOfflineShopData._id),
                                     type: 'shop',
                                     timestamp: Date.now()
                                 };

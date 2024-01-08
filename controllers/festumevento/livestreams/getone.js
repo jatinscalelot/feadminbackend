@@ -27,9 +27,9 @@ exports.getonelivestream = async (req, res) => {
                         { path: 'createdBy', model: primary.model(constants.MODELS.organizers, organizerModel), select: "-password -refer_code -createdBy -updatedBy -agentid -otpVerifyKey -createdAt -updatedAt -__v -last_login_at -f_coins -isdepositereceived -deposite" }
                     ]).lean();
                     if (livestreamData && livestreamData != null) {
-                        let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).countDocuments({ livestreamid: mongoose.Types.ObjectId(livestreamData._id) }));
+                        let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).countDocuments({ livestreamid: new mongoose.Types.ObjectId(livestreamData._id) }));
                         if (noofreview > 0) {
-                            let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).aggregate([{ $match: { livestreamid: mongoose.Types.ObjectId(livestreamData._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
+                            let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).aggregate([{ $match: { livestreamid: new mongoose.Types.ObjectId(livestreamData._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
                             if (totalReviewsCountObj && totalReviewsCountObj.length > 0 && totalReviewsCountObj[0].sum) {
                                 livestreamData.ratings = parseFloat(parseFloat(totalReviewsCountObj[0].sum) / parseInt(noofreview)).toFixed(1);
                                 livestreamData.totalreview = parseInt(noofreview);
@@ -38,7 +38,7 @@ exports.getonelivestream = async (req, res) => {
                             livestreamData.ratings = '0.0';
                             livestreamData.totalreview = parseInt(0);
                         }
-                        let allreview = await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).find({ livestreamid: mongoose.Types.ObjectId(livestreamData._id) }).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name mobile profilepic createdAt timestamp" }).lean();
+                        let allreview = await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).find({ livestreamid: new mongoose.Types.ObjectId(livestreamData._id) }).populate({ path: 'userid', model: festumeventoDB.model(constants.FE_MODELS.users, userModel), select: "name mobile profilepic createdAt timestamp" }).lean();
                         livestreamData.reviews = allreview;
                         return responseManager.onSuccess('Organizer event live stream data!', livestreamData, res);
                     } else {

@@ -23,7 +23,7 @@ exports.withpagination = async (req, res) => {
                 const { organizerid, page, limit, search, status, approval_status } = req.body;
                 let query = {};
                 if (organizerid && organizerid != '' && mongoose.Types.ObjectId.isValid(organizerid)) {
-                    query.createdBy = mongoose.Types.ObjectId(organizerid);
+                    query.createdBy = new mongoose.Types.ObjectId(organizerid);
                 }
                 if (status && status != null && status != undefined) {
                     query.status = status;
@@ -60,10 +60,10 @@ exports.withpagination = async (req, res) => {
                     async.forEachSeries(shoplist.docs, (shop, next_shop) => {
                         (async () => {
                             let rightnow = Date.now();
-                            let totalrunningoffer = parseInt(await festumeventoDB.model(constants.FE_MODELS.offlineoffers, offlineofferModel).countDocuments({ shopid: mongoose.Types.ObjectId(shop._id), end_timestamp: { "$gte": rightnow } }));
-                            let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.shopreviews, shopreviewModel).countDocuments({ shopid: mongoose.Types.ObjectId(shop._id) }));
+                            let totalrunningoffer = parseInt(await festumeventoDB.model(constants.FE_MODELS.offlineoffers, offlineofferModel).countDocuments({ shopid: new mongoose.Types.ObjectId(shop._id), end_timestamp: { "$gte": rightnow } }));
+                            let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.shopreviews, shopreviewModel).countDocuments({ shopid: new mongoose.Types.ObjectId(shop._id) }));
                             if (noofreview > 0) {
-                                let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.shopreviews, shopreviewModel).aggregate([{ $match: { shopid: mongoose.Types.ObjectId(shop._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
+                                let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.shopreviews, shopreviewModel).aggregate([{ $match: { shopid: new mongoose.Types.ObjectId(shop._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
                                 if (totalReviewsCountObj && totalReviewsCountObj.length > 0 && totalReviewsCountObj[0].sum) {
                                     shop.ratings = parseFloat(parseFloat(totalReviewsCountObj[0].sum) / noofreview).toFixed(1);
                                     shop.totalreviews = noofreview;

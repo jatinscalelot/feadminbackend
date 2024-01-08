@@ -34,7 +34,7 @@ exports.savepromotioncoupon = async (req, res) => {
                                         expiry_date : expiry_date,
                                         expiry_time : expiry_time,
                                         expiry_timestamp : timestamp,
-                                        updatedBy : mongoose.Types.ObjectId(req.token.superadminid)
+                                        updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)
                                     };
                                     await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).findByIdAndUpdate(promotioncouponid, obj);
                                     let updatedData = await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).findById(promotioncouponid).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();
@@ -59,8 +59,8 @@ exports.savepromotioncoupon = async (req, res) => {
                                         expiry_timestamp : timestamp,
                                         status : true,
                                         total_used : 0,
-                                        createdBy : mongoose.Types.ObjectId(req.token.superadminid),
-                                        updatedBy : mongoose.Types.ObjectId(req.token.superadminid)
+                                        createdBy : new mongoose.Types.ObjectId(req.token.superadminid),
+                                        updatedBy : new mongoose.Types.ObjectId(req.token.superadminid)
                                     };
                                     let insertedData = await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).create(obj);
                                     let newAddedData = await festumeventoDB.model(constants.FE_MODELS.notificationcoupons, promotioncouponModel).findById(insertedData._id).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();

@@ -20,14 +20,14 @@ exports.onoffitem = async (req, res) => {
                     let itemData = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findById(itemid).lean();
                     if(itemData){
                         if(itemData.status == true){
-                            await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findByIdAndUpdate(itemid, {status : false, updatedBy : mongoose.Types.ObjectId(req.token.superadminid) });
+                            await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findByIdAndUpdate(itemid, {status : false, updatedBy : new mongoose.Types.ObjectId(req.token.superadminid) });
                             let updatedItem = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findById(itemid).populate([
                                 { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
                                 { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }
                             ]).lean();
                             return responseManager.onSuccess('Item status updated successfully!', updatedItem, res);
                         }else{
-                            await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findByIdAndUpdate(itemid, {status : true, updatedBy : mongoose.Types.ObjectId(req.token.superadminid) });
+                            await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findByIdAndUpdate(itemid, {status : true, updatedBy : new mongoose.Types.ObjectId(req.token.superadminid) });
                             let updatedItem = await festumeventoDB.model(constants.FE_MODELS.items, itemModel).findById(itemid).populate([
                                 { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, 
                                 { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }

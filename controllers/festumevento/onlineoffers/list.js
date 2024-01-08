@@ -23,7 +23,7 @@ exports.withpagination = async (req, res) => {
                 const { organizerid, page, limit, search, status, approval_status, live_status } = req.body;
                 let query = {};
                 if (organizerid && organizerid != '' && mongoose.Types.ObjectId.isValid(organizerid)) {
-                    query.createdBy = mongoose.Types.ObjectId(organizerid);
+                    query.createdBy = new mongoose.Types.ObjectId(organizerid);
                 }
                 if (status && status != null && status != undefined) {
                     query.status = status;
@@ -70,9 +70,9 @@ exports.withpagination = async (req, res) => {
                                 next_product_link();
                             }, () => {
                                 (async () => {
-                                    let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.onlineofferreviews, onlineofferreviewModel).countDocuments({ offerid: mongoose.Types.ObjectId(offer._id) }));
+                                    let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.onlineofferreviews, onlineofferreviewModel).countDocuments({ offerid: new mongoose.Types.ObjectId(offer._id) }));
                                     if (noofreview > 0) {
-                                        let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.onlineofferreviews, onlineofferreviewModel).aggregate([{ $match: { offerid: mongoose.Types.ObjectId(offer._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
+                                        let totalReviewsCountObj = await festumeventoDB.model(constants.FE_MODELS.onlineofferreviews, onlineofferreviewModel).aggregate([{ $match: { offerid: new mongoose.Types.ObjectId(offer._id) } }, { $group: { _id: null, sum: { $sum: "$ratings" } } }]);
                                         if (totalReviewsCountObj && totalReviewsCountObj.length > 0 && totalReviewsCountObj[0].sum) {
                                             offer.ratings = parseFloat(parseFloat(totalReviewsCountObj[0].sum) / noofreview).toFixed(1);
                                             offer.totalreviews = noofreview;
