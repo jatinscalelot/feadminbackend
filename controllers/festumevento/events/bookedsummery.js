@@ -45,8 +45,10 @@ exports.withoutpagination = async (req, res) => {
                                 next_attendee();
                             });
                         }, () => {
-                            attendeelist.docs = finalData;
-                            attendeelist.totalAttendance = totalAttendance;
+                            let attendeelist = {
+                                docs : finalData,
+                                totalAttendance : totalAttendance
+                            };
                             return responseManager.onSuccess("event booked list...", attendeelist, res);
                         });
                     }else{
