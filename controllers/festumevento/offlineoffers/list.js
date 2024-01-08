@@ -41,7 +41,7 @@ exports.withpagination = async (req, res) => {
                             { offer_title: { '$regex': new RegExp(search, "i") } },
                             { description: { '$regex': new RegExp(search, "i") } }
                         ],
-                        shopid: mongoose.Types.ObjectId(shopid),
+                        shopid: new mongoose.Types.ObjectId(shopid),
                         ...query
                     }, {
                         page,
@@ -139,7 +139,7 @@ exports.withpagination = async (req, res) => {
                     }).lean().then((shopList) => {
                         let shopIds = [];
                         async.forEachSeries(shopList, (shop, next_shop) => {
-                          shopIds.push(mongoose.Types.ObjectId(shop._id));
+                          shopIds.push(new mongoose.Types.ObjectId(shop._id));
                           next_shop();
                         }, () => {
                             ( async () => {
