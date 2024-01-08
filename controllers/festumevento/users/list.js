@@ -27,7 +27,7 @@ exports.withpagination = async (req, res) => {
                 let totalUsers = parseInt(await festumeventoDB.model(constants.FE_MODELS.users, userModel).countDocuments({}));
                 let totalActiveUsers = parseInt(await festumeventoDB.model(constants.FE_MODELS.users, userModel).countDocuments({status : true, mobileverified : true}));
                 let totalInActiveUsers = parseInt(await festumeventoDB.model(constants.FE_MODELS.users, userModel).countDocuments({$or: [{status : false}, {mobileverified : false}]}));
-                festumeventoDB.model(constants.MODELS.users, userModel).paginate({
+                festumeventoDB.model(constants.FE_MODELS.users, userModel).paginate({
                     $or: [
                         { name: { '$regex': new RegExp(search, "i") } },
                         { email: { '$regex': new RegExp(search, "i") } },
