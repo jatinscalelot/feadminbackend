@@ -9,4 +9,4 @@ router.post('/', helper.authenticateToken, listAgentCtrl.withpagination);
 router.post('/getone', helper.authenticateToken, getoneAgentCtrl.getoneagent);
 router.post('/getorganiser', helper.authenticateToken, getOrganiserByAgentCtrl.getorganizersbyagent);
 router.post('/export', helper.authenticateToken, exportAgentCtrl.exportagents);
-module.exports = router;
+module.exports = router; 

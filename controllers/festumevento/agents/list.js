@@ -52,6 +52,7 @@ exports.withpagination = async (req, res) => {
                     page,
                     limit: parseInt(limit),
                     sort: { "_id" : -1 },
+                    select : "-password",
                     lean: true
                 }).then((agentList) => {
                     agentList.totalAgents = totalAgents;
