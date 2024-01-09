@@ -9,9 +9,17 @@ let schema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
 		default: null
     },
+    admin_name : {
+        type: String,
+		default: null
+    },
+    admin_id : {
+        type: mongoose.Types.ObjectId,
+		default: null
+    },
     transaction_type : {
         type: String,
-        enum: ['refer', 'transaction', 'redeem', 'invoice']
+        enum: ['refer', 'transaction', 'redeem', 'invoice', 'freezed']
     },
     transaction_icon : {
         type: String,
