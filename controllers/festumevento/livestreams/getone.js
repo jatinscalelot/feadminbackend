@@ -24,7 +24,7 @@ exports.getonelivestream = async (req, res) => {
                 if (livestreamid && livestreamid != '' && mongoose.Types.ObjectId.isValid(livestreamid)) {
                     let livestreamData = await festumeventoDB.model(constants.FE_MODELS.livestreams, livestreamModel).findById(livestreamid).populate([
                         { path: 'event_category', model: festumeventoDB.model(constants.FE_MODELS.eventcategories, categoryModel), select: "categoryname description event_type" },
-                        { path: 'createdBy', model: primary.model(constants.MODELS.organizers, organizerModel), select: "-password -refer_code -createdBy -updatedBy -agentid -otpVerifyKey -createdAt -updatedAt -__v -last_login_at -f_coins -isdepositereceived -deposite" }
+                        { path: 'createdBy', model: festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel), select: "-password -refer_code -createdBy -updatedBy -agentid -otpVerifyKey -createdAt -updatedAt -__v -last_login_at -f_coins -isdepositereceived -deposite" }
                     ]).lean();
                     if (livestreamData && livestreamData != null) {
                         let noofreview = parseInt(await festumeventoDB.model(constants.FE_MODELS.livestreamreviews, livestreamreviewModel).countDocuments({ livestreamid: new mongoose.Types.ObjectId(livestreamData._id) }));
