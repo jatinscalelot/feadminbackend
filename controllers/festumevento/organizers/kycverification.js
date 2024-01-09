@@ -21,19 +21,27 @@ exports.approvedisapproveorganizerKYC = async (req, res) => {
                     let organizerData = await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findById(organizerid).lean();
                     if (organizerData && organizerData != null && organizerData.mobileverified == true) {
                         if(organizerData.status == true && organizerData.is_approved == true){
-                            await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, { is_approved : false, updatedBy : new mongoose.Types.ObjectId(admindata._id) });
-                            let updatedData = await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findById(organizerid).populate([{path: 'agentid', model: festumeventoDB.model(constants.FE_MODELS.agents, agentModel), select: 'name email mobile country_code'}, { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
-                            return responseManager.onSuccess('Organizer data dis-approved successfully !', updatedData, res);
+                            if(status == 'approved' || status == 'rejected'){
+                                if(organizerData.kyc_details && organizerData.kyc_details.status == 'pending' || organizerData.kyc_details.status == 'approved' || organizerData.kyc_details.status == 'rejected'){
+                                    let kyc_details = organizerData.kyc_details;
+                                    kyc_details.status = status;
+                                    await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, { kyc_details : kyc_details, updatedBy : new mongoose.Types.ObjectId(admindata._id) });
+                                    let updatedData = await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findById(organizerid).populate([{path: 'agentid', model: festumeventoDB.model(constants.FE_MODELS.agents, agentModel), select: 'name email mobile country_code'}, { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
+                                    return responseManager.onSuccess('Organizer data dis-approved successfully !', updatedData, res);
+                                }else{
+                                    return responseManager.badrequest({ message: 'Approve organizer data first to approve - reject organizer KYC data, please try again' }, res);
+                                }
+                            }else{
+                                return responseManager.badrequest({ message: 'Invalid Status approve - reject organizer KYC data, please try again' }, res);
+                            }
                         }else{
-                            await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findByIdAndUpdate(organizerid, { is_approved : true, status: true, updatedBy : new mongoose.Types.ObjectId(admindata._id) });
-                            let updatedData = await festumeventoDB.model(constants.FE_MODELS.organizers, organizerModel).findById(organizerid).populate([{path: 'agentid', model: festumeventoDB.model(constants.FE_MODELS.agents, agentModel), select: 'name email mobile country_code'}, { path: 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }, { path: 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select : "name" }]).lean();
-                            return responseManager.onSuccess('Organizer data approved successfully !', updatedData, res);
+                            return responseManager.badrequest({ message: 'Approve organizer data first to approve - reject organizer KYC data, please try again' }, res);
                         }
                     } else {
-                        return responseManager.badrequest({ message: 'Invalid organizer id to approve dis-approve organizer data, please try again' }, res);
+                        return responseManager.badrequest({ message: 'Invalid organizer id to approve dis-approve organizer KYC data, please try again' }, res);
                     }
                 } else {
-                    return responseManager.badrequest({ message: 'Invalid organizer id to approve dis-approve organizer data, please try again' }, res);
+                    return responseManager.badrequest({ message: 'Invalid organizer id to approve dis-approve organizer KYC data, please try again' }, res);
                 }
             }else{
                 return responseManager.forbiddenRequest(res);

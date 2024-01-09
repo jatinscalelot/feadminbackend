@@ -7,6 +7,7 @@ const listOragnizerCtrl = require('../../controllers/festumevento/organizers/lis
 const approvedisapproveOragnizerCtrl = require('../../controllers/festumevento/organizers/approvedisapprove');
 const getoneOragnizerCtrl = require('../../controllers/festumevento/organizers/getone');
 const exportOragnizerCtrl = require('../../controllers/festumevento/organizers/export');
+const kycOrganizerCtrl = require('../../controllers/festumevento/organizers/kycverification');
 router.post('/savedeposite', helper.authenticateToken, saveDepositeForOragnizerCtrl.saveorganizerdeposite);
 router.post('/returndeposite', helper.authenticateToken, returnDepositeForOragnizerCtrl.returnorganizerdeposite);
 router.post('/', helper.authenticateToken, listOragnizerCtrl.withpagination);
@@ -14,4 +15,5 @@ router.get('/', helper.authenticateToken, listOragnizerCtrl.withoutpagination);
 router.post('/approvedisapprove', helper.authenticateToken, approvedisapproveOragnizerCtrl.approvedisapproveorganizer);
 router.post('/getone', helper.authenticateToken, getoneOragnizerCtrl.getoneorganizer);
 router.post('/export', helper.authenticateToken, exportOragnizerCtrl.exportorganizer);
+router.post('/kyc', helper.authenticateToken, kycOrganizerCtrl.approvedisapproveorganizerKYC);
 module.exports = router;
