@@ -8,6 +8,7 @@ const shopcategoryModel = require('../../../models/festumevento/shopcategories.m
 const shopreviewModel = require('../../../models/festumevento/shopreviews.model');
 const offlineofferModel = require('../../../models/festumevento/offlineoffers.model');
 const adminModel = require('../../../models/superadmin/admins.model');
+const userModel = require('../../../models/festumevento/users.model');
 const mongoose = require('mongoose');
 const async = require('async');
 exports.getoneofflineshop = async (req, res) => {
