@@ -70,7 +70,7 @@ exports.saveplatform = async (req, res) => {
                                 return responseManager.badrequest({ message: 'Platform name can not be identical, please try again' }, res);
                             }
                         }else{
-                            let existingplatform = await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findOne({_id : {$ne : platformid}, name : name}).lean();
+                            let existingplatform = await festumeventoDB.model(constants.FE_MODELS.platforms, platformModel).findOne({ name : name }).lean();
                             if(existingplatform == null){
                                 if (req.file) {
                                     if (allowedContentTypes.imagearray.includes(req.file.mimetype)) {
