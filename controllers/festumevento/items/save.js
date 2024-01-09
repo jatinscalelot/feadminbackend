@@ -4,7 +4,7 @@ const constants = require('../../../utilities/constants');
 const config = require('../../../utilities/config');
 const adminModel = require('../../../models/superadmin/admins.model');
 const itemModel = require('../../../models/festumevento/items.model');
-const AwsCloud = require('../../../utilities/aws');
+const AwsCloud = require('../../../utilities/fe_aws');
 const allowedContentTypes = require('../../../utilities/content-types');
 const mongoose = require('mongoose');
 exports.saveitem = async (req, res) => {

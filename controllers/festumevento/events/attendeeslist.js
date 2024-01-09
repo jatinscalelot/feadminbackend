@@ -1,18 +1,12 @@
-const helper = require('../../../utilities/helper');
 const responseManager = require('../../../utilities/response.manager');
 const mongoConnection = require('../../../utilities/connections');
 const constants = require('../../../utilities/constants');
-const AwsCloud = require('../../../utilities/aws');
 const config = require('../../../utilities/config');
-const organizerModel = require('../../../models/festumevento/organizers.model');
 const eventModel = require('../../../models/festumevento/events.model');
 const eventbookingModel = require('../../../models/festumevento/eventbookings.model');
 const userModel = require('../../../models/festumevento/users.model');
 const adminModel = require('../../../models/superadmin/admins.model');
 const mongoose = require('mongoose');
-var jsonexcel = require('exceljs');
-var fs = require('fs');
-var excelFileName = 'downloadFiles/attendeesReport.xlsx';
 const async = require('async');
 exports.withpagination = async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
