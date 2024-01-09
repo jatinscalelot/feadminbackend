@@ -6,6 +6,7 @@ const organizerModel = require('../../../models/festumevento/organizers.model');
 const agentModel = require('../../../models/festumevento/agents.model');
 const adminModel = require('../../../models/superadmin/admins.model');
 const fcointransactionModel = require('../../../models/festumevento/fcointransactions.model');
+const settingModel = require('../../../models/festumevento/settings.model');
 const mongoose = require("mongoose");
 exports.freezfcoinsfororganizer = async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
