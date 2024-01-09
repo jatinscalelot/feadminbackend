@@ -22,8 +22,6 @@ exports.freezfcoinsfororganizer = async (req, res) => {
                 let defaultSetting = await festumeventoDB.model(constants.FE_MODELS.fcoins, fcoinModel).find({}).lean();
                 if (defaultSetting && defaultSetting.length > 0) {
                     let currentCoins = defaultSetting[0];
-                    console.log('currentCoins', currentCoins);
-                    console.log('freezfcoins', freezfcoins);
                     if(freezfcoins && !isNaN(freezfcoins) && parseInt(freezfcoins) > 0 && parseInt(currentCoins.fcoins) >= parseInt(freezfcoins)){
                         if(total_max_user && !isNaN(total_max_user) && parseInt(total_max_user) > 0){
                             if(fcoins_transfer_to_user && !isNaN(fcoins_transfer_to_user) && parseInt(fcoins_transfer_to_user) > 0){
