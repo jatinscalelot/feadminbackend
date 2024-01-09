@@ -28,6 +28,10 @@ let schema = new mongoose.Schema({
     f_coins : {
         type : Number,
         default: 0
+    },
+    timestamp : {
+        type : Number,
+        default: 0
     }
 }, { timestamps: true, strict: false, autoIndex: true });
 schema.plugin(mongoosePaginate);

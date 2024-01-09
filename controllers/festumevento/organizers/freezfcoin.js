@@ -48,7 +48,8 @@ exports.freezfcoinsfororganizer = async (req, res) => {
                                                     admin_id : new mongoose.Types.ObjectId(admindata._id),
                                                     transaction_type : 'freezed',
                                                     transaction_icon : 'global/tricons/transaction.png',
-                                                    f_coins : parseInt(freezfcoins)
+                                                    f_coins : parseInt(freezfcoins),
+                                                    timestamp : Date.now()
                                                 };
                                                 await festumeventoDB.model(constants.FE_MODELS.fcointransactions, fcointransactionModel).create(fcointransactionobj);
                                                 let remainingfcoins = parseInt(parseInt(currentCoins.fcoins) - parseInt(freezfcoins));
