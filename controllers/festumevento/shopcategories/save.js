@@ -42,7 +42,7 @@ exports.saveshopcategory = async (req, res) => {
                                 createdBy: new mongoose.Types.ObjectId(req.token.superadminid),
                                 updatedBy: new mongoose.Types.ObjectId(req.token.superadminid)
                             };
-                            let insertedData = await primary.model(constants.MODELS.shopcategories, shopcategoryModel).create(obj);
+                            let insertedData = await festumeventoDB.model(constants.FE_MODELS.shopcategories, shopcategoryModel).create(obj);
                             let updatedData = await festumeventoDB.model(constants.FE_MODELS.shopcategories, shopcategoryModel).findById(insertedData._id).populate([{path : 'createdBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"},{path : 'updatedBy', model: primary.model(constants.MODELS.admins, adminModel), select: "name"}]).lean();
                             return responseManager.onSuccess('Category created sucecssfully!', updatedData, res);
                         } else {
