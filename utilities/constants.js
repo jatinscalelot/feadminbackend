@@ -64,7 +64,8 @@ let constants = {
         userchatnotifications : 'userchatnotifications',
         uochats : 'uochats',
         emailtemplates : 'emailtemplates',
-        smstemplates : 'smstemplates'
+        smstemplates : 'smstemplates',
+        redemofferscans : 'redemofferscans'
     },
     EP_MODELS : {
         admins: 'admins',

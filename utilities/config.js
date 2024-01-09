@@ -49,7 +49,8 @@ let FestumeventoCollections = [
     { text: 'Users', value: 'users' },
     { text: 'User Notifications', value: 'usernotifications' },
     { text: 'User Chat Notifications', value: 'userchatnotifications' },
-    { text: 'User Organiser Chat', value: 'uochats' }
+    { text: 'User Organiser Chat', value: 'uochats' },
+    { text: 'Redem Offer Scans', value: 'redemofferscans'}
 ];
 let EventopackageCollections = [
     { text: 'Agents', value: 'agents' },
