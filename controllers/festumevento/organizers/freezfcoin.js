@@ -6,7 +6,7 @@ const organizerModel = require('../../../models/festumevento/organizers.model');
 const agentModel = require('../../../models/festumevento/agents.model');
 const adminModel = require('../../../models/superadmin/admins.model');
 const fcointransactionModel = require('../../../models/festumevento/fcointransactions.model');
-const settingModel = require('../../../models/festumevento/settings.model');
+const fcoinModel = require('../../../models/festumevento/fcoins.model');
 const mongoose = require("mongoose");
 exports.freezfcoinsfororganizer = async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
@@ -19,7 +19,7 @@ exports.freezfcoinsfororganizer = async (req, res) => {
             if (havePermission) {
                 let festumeventoDB = mongoConnection.useDb(constants.FESTUMEVENTO_DB);
                 const { organizerid, freezfcoins, total_max_user, fcoins_transfer_to_user } = req.body;
-                let defaultSetting = await festumeventoDB.model(constants.FE_MODELS.settings, settingModel).find({}).lean();
+                let defaultSetting = await festumeventoDB.model(constants.FE_MODELS.fcoins, fcoinModel).find({}).lean();
                 if (defaultSetting && defaultSetting.length > 0) {
                     let currentCoins = defaultSetting[0];
                     console.log('currentCoins', currentCoins);
@@ -56,7 +56,7 @@ exports.freezfcoinsfororganizer = async (req, res) => {
                                                 };
                                                 await festumeventoDB.model(constants.FE_MODELS.fcointransactions, fcointransactionModel).create(fcointransactionobj);
                                                 let remainingfcoins = parseInt(parseInt(currentCoins.fcoins) - parseInt(freezfcoins));
-                                                await festumeventoDB.model(constants.FE_MODELS.settings, settingModel).findByIdAndUpdate(defaultSetting[0]._id, {fcoins : parseInt(remainingfcoins)});
+                                                await festumeventoDB.model(constants.FE_MODELS.fcoins, fcoinModel).findByIdAndUpdate(defaultSetting[0]._id, {fcoins : parseInt(remainingfcoins)});
                                                 return responseManager.onSuccess('Organizer coin freezed successfully !', updatedData, res);                                
                                             }
                                         }else{
